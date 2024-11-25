@@ -26,6 +26,12 @@ export default {
           warning: '#ff9800', 
           error: '#f44336',  
         },
+        transparent: 'transparent',
+        current: 'currentColor',
+        'white': '#ffffff',
+        'purple': '#3f3cbb',
+        'midnight': '#121063',
+        'metal': '#565584'
       },
       fontFamily: {
         sans: ['Roboto', 'Arial', 'sans-serif'],
