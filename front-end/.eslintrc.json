@@ -1,5 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
+  "extends": ["next/core-web-vitals", "next/typescript","plugin:tailwindcss/recommended"],
+  "plugins": ["tailwindcss"],
   "rules": {
     "@typescript-eslint/no-unused-vars": ["warn", { 
       "vars": "all", 
@@ -7,7 +8,7 @@
       "args": "after-used",
       "ignoreRestSiblings": true 
     }],
-    "next/no-img-element": "warn",
+    "next/no-img-element": "off",
     "no-unused-vars": "off",
     "@next/next/no-html-link-for-pages": "off", 
     "react/prop-types": "off",
@@ -16,6 +17,7 @@
     "react/jsx-pascal-case": "warn",
     "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
-    "tailwindcss/classnames-order": "warn"
+    "tailwindcss/classnames-order": "warn",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
