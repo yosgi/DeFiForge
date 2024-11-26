@@ -15,7 +15,7 @@ export const DynamicSwitchLanguage = () => {
     return (
         <Menu as="div" className="relative ml-3">
 
-            <MenuButton className="relative right-4 flex rounded-full bg-primary text-sm  focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+            <MenuButton className="relative right-4 flex rounded-full text-gray-400  text-sm  focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <GlobeAltIcon className="h-6 w-6" aria-hidden="true" />
             </MenuButton>
             <MenuItems
