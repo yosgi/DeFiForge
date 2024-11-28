@@ -7,28 +7,28 @@ const features = [
     description: "Acquire FORGE tokens and unlock the power of decentralized finance.",
     buttonText: "Get FORGE",
     buttonLink: "/get-forge",
-    icon: "🔥", // Replace with your icon
+    icon: "fire", // Replace with your icon
   },
   {
-    title: "Stake FORGE",
+    title: "Stake",
     description: "Stake your FORGE tokens to earn IGNIS rewards with competitive APYs.",
     buttonText: "Start Staking",
-    buttonLink: "/stake-forge",
-    icon: "⚒️", // Replace with your icon
+    buttonLink: "/stake",
+    icon: "iron", // Replace with your icon
   },
   {
     title: "Borrow & Lend",
     description: "Access decentralized borrowing and lending with your FORGE tokens.",
     buttonText: "Borrow Now",
     buttonLink: "/borrow",
-    icon: "🏦", // Replace with your icon
+    icon: "crysto", // Replace with your icon
   },
   {
-    title: "Save FORGE",
+    title: "Save",
     description: "Save your FORGE tokens securely and earn stable rewards.",
     buttonText: "Start Saving",
     buttonLink: "/save",
-    icon: "💰", // Replace with your icon
+    icon: "shild", // Replace with your icon
   },
 ];
 
@@ -63,7 +63,8 @@ const HomePage = () => {
             whileHover={{ scale: 1.05 }}
             className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow"
           >
-            <div className="text-4xl mb-4 text-center">{feature.icon}</div>
+            {/* <div className="text-4xl mb-4 text-center">{feature.icon}</div> */}
+            <img src={`/${feature.icon}.svg`} alt={feature.title} className="w-16 h-16 mx-auto" />
             <h2 className="text-lg font-semibold text-gray-800 text-center">
               {feature.title}
             </h2>
