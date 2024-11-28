@@ -2,13 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon,GlobeAltIcon } from '@heroicons/react/24/outline'
 import { DynamicUserMenu } from './DynamicUserMenu'
 import {DynamicSwitchLanguage} from './DynamicSwitchLanguage'
-
-const navigation = [
-
-  { name: 'Dashboard', href: '#', current: true },
-]
-
-
+import {useTranslations} from 'next-intl';
 
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
@@ -16,9 +10,14 @@ function classNames(...classes: (string | undefined | null | false)[]): string {
   }
 
 export default function Navbar() {
-  
+  const t = useTranslations();
+  const navigation = [
+    {name:"dashboard", href: '/', current: true},
+    { name: t('staking'), href: '/stack', current: false },
+    
+  ]
   return (
-    <Disclosure as="nav" className="bg-white">
+    <Disclosure as="nav" className="bg-white border-b border-gray-300 shadow-md">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -47,7 +46,7 @@ export default function Navbar() {
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-primary text-white' : 'text-gray-300 hover:bg-primary hover:text-white',
+                      item.current ? 'bg-primary-dark text-white' : 'text-primary-light hover:bg-primary hover:text-white',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -65,7 +64,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <DisclosurePanel className="sm:hidden">
+      <DisclosurePanel className="sm:hidden  w-full">
         <div className="space-y-1 px-2 pb-3 pt-2">
           {navigation.map((item) => (
             <DisclosureButton
@@ -74,7 +73,7 @@ export default function Navbar() {
               href={item.href}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-primary text-white' : 'text-gray-300 hover:bg-primary hover:text-white',
+                item.current ? 'bg-primary-dark text-white' : 'text-primary-light hover:bg-primary hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
