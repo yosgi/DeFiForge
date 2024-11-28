@@ -1,9 +1,11 @@
+"use client";
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon,GlobeAltIcon } from '@heroicons/react/24/outline'
 import { DynamicUserMenu } from './DynamicUserMenu'
 import {DynamicSwitchLanguage} from './DynamicSwitchLanguage'
 import {useTranslations} from 'next-intl';
-
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function classNames(...classes: (string | undefined | null | false)[]): string {
     return classes.filter(Boolean).join(' ');
@@ -16,6 +18,7 @@ export default function Navbar() {
     { name: t('staking'), href: '/stack', current: false },
     
   ]
+  const pathname = usePathname();
   return (
     <Disclosure as="nav" className="bg-white border-b border-gray-300 shadow-md">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -41,17 +44,18 @@ export default function Navbar() {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
-                    className={classNames(
-                      item.current ? 'bg-primary-dark text-white' : 'text-primary-light hover:bg-primary hover:text-white',
-                      'rounded-md px-3 py-2 text-sm font-medium',
-                    )}
-                  >
-                    {item.name}
-                  </a>
+                   <Link
+                   key={item.name}
+                   href={item.href}
+                   className={classNames(
+                     pathname === item.href
+                       ? 'bg-primary-dark text-white'
+                       : 'text-primary-light hover:bg-primary hover:text-white',
+                     'rounded-md px-3 py-2 text-sm font-medium',
+                   )}
+                 >
+                   {item.name}
+                 </Link>
                 ))}
               </div>
             </div>
@@ -67,18 +71,18 @@ export default function Navbar() {
       <DisclosurePanel className="sm:hidden  w-full">
         <div className="space-y-1 px-2 pb-3 pt-2">
           {navigation.map((item) => (
-            <DisclosureButton
-              key={item.name}
-              as="a"
-              href={item.href}
-              aria-current={item.current ? 'page' : undefined}
-              className={classNames(
-                item.current ? 'bg-primary-dark text-white' : 'text-primary-light hover:bg-primary hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium',
-              )}
-            >
-              {item.name}
-            </DisclosureButton>
+            <Link
+            key={item.name}
+            href={item.href}
+            className={classNames(
+              pathname === item.href
+                ? 'bg-primary-dark text-white'
+                : 'text-primary-light hover:bg-primary hover:text-white',
+              'block rounded-md px-3 py-2 text-base font-medium',
+            )}
+          >
+            {item.name}
+          </Link>
           ))}
         </div>
       </DisclosurePanel>
