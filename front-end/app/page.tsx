@@ -72,7 +72,7 @@ const HomePage = () => {
             <div className="mt-6 text-center">
               <a
                 href={feature.buttonLink}
-                className="inline-block px-6 py-2 bg-primary text-white font-medium rounded-md hover:bg-blue-600 transition"
+                className="inline-block px-6 py-2 bg-primary text-white font-medium rounded-md hover:bg-primary-dark transition"
               >
                 {feature.buttonText}
               </a>
