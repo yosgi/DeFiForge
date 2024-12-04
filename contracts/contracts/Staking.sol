@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 
-contract Staking is Ownable(address(0)), ReentrancyGuard {
+contract Staking is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     // Deposit Item
@@ -45,7 +45,7 @@ contract Staking is Ownable(address(0)), ReentrancyGuard {
     event Withdraw(address indexed user, uint256 amount);
     event EmergencyWithdraw(address indexed user, uint256 amount);
 
-    constructor(address tokenAddr, address feeAddr) {
+    constructor(address tokenAddr, address feeAddr) Ownable(msg.sender) {
         stakingToken = IERC20(tokenAddr);
         rewardToken = stakingToken;
         feeAddress = feeAddr;
