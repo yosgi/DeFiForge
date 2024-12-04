@@ -6,7 +6,6 @@ import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
 /// @title Simple FlashAirdropReceiver mock
-/// @author kaymen99
 /// @notice will do anything with flashlaoned amount
 contract FlashAirdropReceiverMock is IERC721Receiver {
     constructor(address pool, address nftAddress) {
@@ -46,7 +45,6 @@ contract FlashAirdropReceiverMock is IERC721Receiver {
 }
 
 /// @title Bad FlashAirdropReceiver implementation mock
-/// @author kaymen99
 /// @dev will always return false in ´onFlashLoan´ callback
 /// @dev should always cause flashloan transaction to revert
 contract BadFlashAirdropReceiverMock is IERC721Receiver {

@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /// @title Simple FlashloanReceiver mock
-/// @author kaymen99
 /// @notice will do anything with flashlaoned amount
 contract FlashloanReceiverMock {
     constructor(address pool, address weth, address wbtc) {
@@ -36,7 +35,6 @@ contract FlashloanReceiverMock {
 }
 
 /// @title Bad FlashloanReceiver implementation mock
-/// @author kaymen99
 /// @dev will always return false in ´onFlashLoan´ callback
 /// @dev should always cause flashloan transaction to revert
 contract BadFlashloanReceiverMock {

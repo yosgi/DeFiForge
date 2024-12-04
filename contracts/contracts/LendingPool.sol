@@ -14,7 +14,6 @@ import "./libraries/TokenHelper.sol";
 
 /**
  * @title An NFT & ERC20 lending pool
- * @author K.Aymen
  * @notice This contract implements a lending and borrowing protocol with support for ERC20 and NFT collateral.
  * @dev This contract will be owned by the governance who is the only address allowed to: add new vaults, change existing vault setup, pause pool or specific vault.
  */
@@ -137,7 +136,6 @@ contract LendingPool is Pausable, NFTCollateral {
         address daiPriceFeed,
         PoolStructs.VaultSetupParams memory daiVaultParams
     ) Pausable(initialOwner) {
-        
         _setupVault(
             daiAddress,
             daiPriceFeed,
