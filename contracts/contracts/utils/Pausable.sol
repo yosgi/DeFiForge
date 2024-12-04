@@ -21,7 +21,7 @@ contract Pausable is Ownable {
     /** EVENTS */
     event SystemPaused(bool state);
     event VaultPaused(address vault, bool state);
-
+    constructor(address initialOwner) Ownable(initialOwner) {}
     function WhenPaused(address vault) internal view {
         if (!globalPaused && !vaultPaused[vault]) revert isNotPaused();
     }

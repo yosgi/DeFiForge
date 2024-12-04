@@ -132,10 +132,12 @@ contract LendingPool is Pausable, NFTCollateral {
      * @param daiVaultParams The parameters for DAI token vault (see PoolStructs.VaultSetupParams).
      */
     constructor(
+        address initialOwner,
         address daiAddress,
         address daiPriceFeed,
         PoolStructs.VaultSetupParams memory daiVaultParams
-    ) {
+    ) Pausable(initialOwner) {
+        
         _setupVault(
             daiAddress,
             daiPriceFeed,

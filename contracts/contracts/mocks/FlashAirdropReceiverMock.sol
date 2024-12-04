@@ -21,16 +21,16 @@ contract FlashAirdropReceiverMock is IERC721Receiver {
      * @param data Arbitrary data structure, intended to contain user-defined parameters.
      * @return bool either the operation was successful or not.
      */
-    function onFlashLoan(
-        address initiator,
-        address nftAddress,
-        uint256[] calldata tokenIds,
-        bytes calldata data
-    ) external returns (bool) {
-        // do user operations
+    // function onFlashLoan(
+    //     address initiator,
+    //     address nftAddress,
+    //     uint256[] calldata tokenIds,
+    //     bytes calldata data
+    // ) external returns (bool) {
+    //     // do user operations
 
-        return true;
-    }
+    //     return true;
+    // }
 
     /**
      * @dev ERC721 receiver callback to accept incoming NFT transfers.
@@ -62,17 +62,17 @@ contract BadFlashAirdropReceiverMock is IERC721Receiver {
      * @param data Arbitrary data structure, intended to contain user-defined parameters.
      * @return bool either the operation was successful or not.
      */
-    function onFlashLoan(
-        address initiator,
-        address nftAddress,
-        uint256[] calldata tokenIds,
-        bytes calldata data
-    ) external returns (bool) {
-        // do user operations
+    // function onFlashLoan(
+    //     address initiator,
+    //     address nftAddress,
+    //     uint256[] calldata tokenIds,
+    //     bytes calldata data
+    // ) external returns (bool) {
+    //     // do user operations
 
-        // will always return false which should revert the flashloan tx
-        return false;
-    }
+    //     // will always return false which should revert the flashloan tx
+    //     return false;
+    // }
 
     /**
      * @dev ERC721 receiver callback to accept incoming NFT transfers.
