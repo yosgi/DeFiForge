@@ -14,6 +14,7 @@
     "@openzeppelin/test-helpers": "^0.5.16"
   },
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test && node scripts/copyABI.js",
+    "migrate": "truffle migrate --network sepolia && node scripts/copyABI.js"
   }
 }
