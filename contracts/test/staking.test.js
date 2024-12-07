@@ -8,33 +8,35 @@ contract("Staking", (accounts) => {
   const [owner, feeAddress, user] = accounts;
 
   let staking;
-  let mockToken;
+  let rewardToken;
 
   beforeEach(async () => {
-    // Deploy mock token
-    mockToken = await Token.new("MockToken", "MTK", 18);
-    // Deploy staking contract
-    staking = await Staking.new(mockToken.address, feeAddress);
-    // Mint tokens to owner
-    await mockToken.mint(owner, web3.utils.toWei("1000000", "ether"))
-    //Allocate tokens to user
-    await mockToken.transfer(user, web3.utils.toWei("1000", "ether"), { from: owner });
-    // Approve staking contract to spend user's tokens
-    await mockToken.approve(staking.address, web3.utils.toWei("1000", "ether"), { from: user });
+    // Deploy reward token
+    rewardToken = await Token.new("RewardToken", "RTK", 18);
+
+    // Deploy staking contract with Sepolia ETH (address 0) and reward token
+    staking = await Staking.new(rewardToken.address, feeAddress, { from: owner });
+
+    // Mint reward tokens to the staking contract for distribution
+    await rewardToken.mint(staking.address, web3.utils.toWei("100000", "ether"));
     await staking.startReward({ from: owner });
   });
 
-  it("should allow user to deposit tokens and start earning rewards", async () => {
-    // Deposit tokens
-    await staking.deposit(web3.utils.toWei("100", "ether"), 1, { from: user });
-    const userInfo = await staking.getStakedTokens(user);
-    expect(userInfo.toString()).to.equal(web3.utils.toWei("100", "ether"));
+  it("should allow user to stake ETH and record deposit", async () => {
+    const depositAmount = web3.utils.toWei("1", "ether"); // 1 ETH
+
+    // Stake ETH
+    await staking.deposit(1, { from: user, value: depositAmount });
+
+    const userStaked = await staking.getStakedTokens(user);
+    expect(userStaked.toString()).to.equal(depositAmount);
   });
 
   it("should calculate rewards correctly based on APY and duration", async () => {
+    const depositAmount = web3.utils.toWei("1", "ether");
 
-    // Deposit tokens with APY option 1 (30 days, 10% APY)
-    await staking.deposit(web3.utils.toWei("100", "ether"), 1, { from: user });
+    // Stake ETH with APY option 1 (30 days, 10% APY)
+    await staking.deposit(1, { from: user, value: depositAmount });
 
     // Fast-forward time by 15 days
     await time.increase(time.duration.days(15));
@@ -45,23 +47,28 @@ contract("Staking", (accounts) => {
   });
 
   it("should handle early withdrawal with penalties", async () => {
-    // Deposit tokens with APY option 1
-    await staking.deposit(web3.utils.toWei("100", "ether"), 1, { from: user });
+    const depositAmount = web3.utils.toWei("1", "ether");
+
+    // Stake ETH
+    await staking.deposit(1, { from: user, value: depositAmount });
 
     // Withdraw before duration
-    await staking.withdraw(0, { from: user });
+    const userInitialBalance = await web3.eth.getBalance(user);
+    const tx = await staking.withdraw(0, { from: user});
 
-    const userBalance = await mockToken.balanceOf(user);
-    expect(new web3.utils.BN(userBalance)).to.be.bignumber.lessThan(new web3.utils.BN(web3.utils.toWei("1000", "ether")));
+    const userFinalBalance = await web3.eth.getBalance(user);
+    expect(new web3.utils.BN(userFinalBalance)).to.be.bignumber.greaterThan(new web3.utils.BN(userInitialBalance));
   });
 
   it("should distribute withdrawal fees to feeAddress", async () => {
-    // Deposit and withdraw tokens
-    await staking.deposit(web3.utils.toWei("100", "ether"), 1, { from: user });
+    const depositAmount = web3.utils.toWei("1", "ether");
+
+    // Stake ETH and withdraw
+    await staking.deposit(1, { from: user, value: depositAmount });
     await staking.withdraw(0, { from: user });
 
-    const feeBalance = await mockToken.balanceOf(feeAddress);
-    expect(new web3.utils.BN(feeBalance)).to.not.equal("0");
+    const feeBalance = await web3.eth.getBalance(feeAddress);
+    expect(new web3.utils.BN(feeBalance)).to.be.bignumber.greaterThan(new web3.utils.BN("0"));
   });
 
   it("should allow the owner to update APYs", async () => {

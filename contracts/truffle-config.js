@@ -1,7 +1,8 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 require('dotenv').config(); 
-const mnemonic = process.env.MNEMONIC; // 从环境变量中获取助记词
-const infuraKey = process.env.INFURA_PROJECT_ID; // 从环境变量中获取 Infura 项目 ID
+const mnemonic = process.env.MNEMONIC;
+const infuraKey = process.env.INFURA_PROJECT_ID; 
+const ANKER_API_KEY = process.env.ANKER_API_KEY;
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -71,19 +72,19 @@ module.exports = {
     // options below to some value.
     //
     sepolia: {
-      provider: () => new HDWalletProvider(mnemonic, `https://sepolia.infura.io/v3/${infuraKey}`),
+      provider: () => new HDWalletProvider(mnemonic, `https://rpc.ankr.com/eth_sepolia/${ANKER_API_KEY}`),
       network_id: 11155111, // Sepolia 的网络 ID
-      gas: 5500000, // Gas limit
-      gasPrice: 20000000000, // Gas price: 20 Gwei
-      confirmations: 2, // # of confirmations to wait between deployments
+      gas: 5000000, // Gas limit
+      gasPrice: 1000000000, // Gas price: 20 Gwei
+      // confirmations: 2, // # of confirmations to wait between deployments
       timeoutBlocks: 200, // # of blocks before a deployment times out
       skipDryRun: true // Skip dry run before migrations
     },
     holesky: {
       provider: () => new HDWalletProvider(mnemonic, `https://holesky.infura.io/v3/${infuraKey}`),
       network_id: 17000, // Holesky 的网络 ID
-      gas: 5500000, // Gas limit
-      gasPrice: 20000000000, // Gas price: 20 Gwei
+      gas: 5000000, // Gas limit
+      gasPrice: 1000000000, // Gas price: 20 Gwei
       confirmations: 2, // # of confirmations to wait between deployments
       timeoutBlocks: 200, // # of blocks before a deployment times out
       skipDryRun: true // Skip dry run before migrations

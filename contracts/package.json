@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.16"
+  },
+  "scripts": {
+    "test": "truffle test"
   }
 }
