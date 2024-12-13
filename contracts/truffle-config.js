@@ -3,6 +3,8 @@ require('dotenv').config();
 const mnemonic = process.env.MNEMONIC;
 const infuraKey = process.env.INFURA_PROJECT_ID; 
 const ANKER_API_KEY = process.env.ANKER_API_KEY;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -72,9 +74,9 @@ module.exports = {
     // options below to some value.
     //
     sepolia: {
-      provider: () => new HDWalletProvider(mnemonic, `https://rpc.ankr.com/eth_sepolia/${ANKER_API_KEY}`),
-      network_id: 11155111, // Sepolia 的网络 ID
-      gas: 5000000, // Gas limit
+      provider: () => new HDWalletProvider(mnemonic, `https://blockchain.googleapis.com/v1/projects/speedy-coder-383121/locations/us-central1/endpoints/ethereum-sepolia/rpc?key=${GOOGLE_API_KEY}`),
+      network_id: 11155111, // Sepolia 
+      gas: 15000000, // Gas limit
       gasPrice: 1000000000, // Gas price: 20 Gwei
       // confirmations: 2, // # of confirmations to wait between deployments
       timeoutBlocks: 200, // # of blocks before a deployment times out
@@ -82,7 +84,7 @@ module.exports = {
     },
     holesky: {
       provider: () => new HDWalletProvider(mnemonic, `https://holesky.infura.io/v3/${infuraKey}`),
-      network_id: 17000, // Holesky 的网络 ID
+      network_id: 17000, // Holesky 
       gas: 5000000, // Gas limit
       gasPrice: 1000000000, // Gas price: 20 Gwei
       confirmations: 2, // # of confirmations to wait between deployments
@@ -91,7 +93,7 @@ module.exports = {
     },
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
+     port: 8545,            // Standard Ethereum port (default: none)
      network_id: "5777",       // Any network (default: none)
     },
     //
