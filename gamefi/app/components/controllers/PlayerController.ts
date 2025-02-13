@@ -2,22 +2,10 @@ import Phaser from 'phaser';
 import { PlayerMovement } from './PlayerMovement';
 import { PlayerJump } from './PlayerJump';
 import { PlayerAttack } from './PlayerAttack';
+import { PlayerStateManager } from "./PlayerStateManager";
+import { PlayerAnimationManager } from "./PlayerAnimationManager";
+import { CharState } from './CharState';
 
-export enum CharState {
-    Idle = 'Idle',
-    Run = 'Run',
-    Dash = 'Dash',
-    Jump = 'Jump',
-    UpToFall = 'UpToFall',
-    Fall = 'Fall',
-    Attack1 = 'Attack1',
-    Attack2 = 'Attack2',
-    Attack3 = 'Attack3',
-    DashAttack = 'DashAttack',
-    Blocking = 'Blocking',
-    Slide = 'Slide',
-    Stunned = 'Stunned'
-}
 
 export interface PlayerConfig {
     runSpeed?: number;             // 普通移动速度（Run状态）
@@ -100,6 +88,10 @@ export class PlayerController {
     public jump: PlayerJump;
     public attack: PlayerAttack;
 
+    // 新增：状态与动画管理模块
+    public stateManager: PlayerStateManager;
+    public animationManager: PlayerAnimationManager;
+
     constructor(
         scene: Phaser.Scene,
         x: number,
@@ -161,6 +153,11 @@ export class PlayerController {
         this.movement = new PlayerMovement(this);
         this.jump = new PlayerJump(this);
         this.attack = new PlayerAttack(this);
+
+        // 初始化状态与动画管理模块
+        this.animationManager = new PlayerAnimationManager(this);
+        this.stateManager = new PlayerStateManager(this, this.animationManager);
+
         this.setupAnimationEvents();
     }
 
@@ -180,17 +177,17 @@ export class PlayerController {
                     if (this.nextAttackRequested && this.attackComboStep < 2) {
                         this.attackComboStep++;
                         if (this.attackComboStep === 1) {
-                            this.setState(CharState.Attack2);
+                            this.stateManager.changeState(CharState.Attack2);
                         } else if (this.attackComboStep === 2) {
-                            this.setState(CharState.Attack3);
+                            this.stateManager.changeState(CharState.Attack3);
                         }
                         this.nextAttackRequested = false;
                     } else {
                         // 连击结束后，根据是否有移动输入返回 Run 或 Idle 状态
                         if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                            this.setState(CharState.Run);
+                            this.stateManager.changeState(CharState.Run);
                         } else {
-                            this.setState(CharState.Idle);
+                            this.stateManager.changeState(CharState.Idle);
                         }
                         this.attackComboStep = 0;
                         this.nextAttackRequested = false;
@@ -199,14 +196,14 @@ export class PlayerController {
                 // Dash 攻击结束后
                 else if (anim.key === this.dashAttackAnimation && this.state === CharState.DashAttack) {
                     if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                        this.setState(CharState.Run);
+                        this.stateManager.changeState(CharState.Run);
                     } else {
-                        this.setState(CharState.Idle);
+                        this.stateManager.changeState(CharState.Idle);
                     }
                 }
                 // Slide 动作完成后
                 else if (anim.key === `${this.animPrefix}-slide` && this.state === CharState.Slide) {
-                    this.setState(CharState.Idle);
+                    this.stateManager.changeState(CharState.Idle);
                 }
                 // 对于 up_to_fall，交由 update() 检测动画进度转换到 Fall 状态
             }
@@ -216,84 +213,18 @@ export class PlayerController {
     /**
      * 辅助方法：如果当前精灵动画与目标动画不一致，则播放目标动画
      */
-    private playAnimationIfNotPlaying(animKey: string): void {
+    public playAnimationIfNotPlaying(animKey: string): void {
         if (this.sprite.anims.currentAnim && this.sprite.anims.currentAnim.key === animKey) return;
         this.sprite.play(animKey, true);
         if (this.debug) {
             console.debug(`Playing animation: ${animKey}`);
         }
     }
-
-
-    /**
-     * 状态切换，切换时设置对应动画和初始状态
-     */
-    public setState(newState: CharState): void {
-        if (this.state === newState) return;
-        if (this.debug) {
-            console.debug(`State change: ${this.state} -> ${newState}`);
-        }
-        this.state = newState;
-        switch (newState) {
-            case CharState.Idle:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-idle`);
-                break;
-            case CharState.Run:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-run`);
-                break;
-            case CharState.Dash:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-dash`);
-                break;
-            case CharState.Jump:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-jump`);
-                break;
-            case CharState.UpToFall:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-up_to_fall`);
-                break;
-            case CharState.Fall:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-fall`);
-                break;
-            case CharState.Attack1:
-                this.playAnimationIfNotPlaying(this.normalAttackAnimations[0]);
-                break;
-            case CharState.Attack2:
-                this.playAnimationIfNotPlaying(this.normalAttackAnimations[1]);
-                break;
-            case CharState.Attack3:
-                this.playAnimationIfNotPlaying(this.normalAttackAnimations[2]);
-                break;
-            case CharState.DashAttack:
-                this.playAnimationIfNotPlaying(this.dashAttackAnimation);
-                // 设置初始 dashAttack 推进速度，根据角色最后方向
-                if (this.lastDirection === 'left') {
-                    this.sprite.setVelocityX(-this.dashAttackInitialSpeed);
-                    this.sprite.setFlipX(true);
-                } else {
-                    this.sprite.setVelocityX(this.dashAttackInitialSpeed);
-                    this.sprite.setFlipX(false);
-                }
-                break;
-            case CharState.Slide:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-slide`);
-                break;
-            case CharState.Blocking:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-crouch`);
-                break;
-            case CharState.Stunned:
-                this.playAnimationIfNotPlaying(`${this.animPrefix}-hurt`);
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
      * 每帧调用，更新状态、检测输入、处理各状态之间的转换
      */
     public update(time: number, delta: number): void {
         if (this.isDead) return;
-
-
         // 着地检测：当角色触地时，重置二段跳标记，并记录最后着地时间
         if (this.sprite.body!.blocked.down) {
             this.lastGroundedTime = time;  // 记录当前时间作为最近一次着地时间
@@ -304,32 +235,32 @@ export class PlayerController {
             ) {
                 this.doubleJumpUsed = false;
                 if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                    this.setState(CharState.Run);
+                    this.stateManager.changeState(CharState.Run);
                 } else {
-                    this.setState(CharState.Idle);
+                    this.stateManager.changeState(CharState.Idle);
                 }
             }
         }
 
         // Dash 状态：Dash 持续时间结束后恢复 Idle 状态（或根据需求调整为 Idle/Run）
         if (this.state === CharState.Dash && time > this.dashEndTime) {
-            this.setState(CharState.Idle);
+            this.stateManager.changeState(CharState.Idle);
             this.sprite.setVelocityX(0);
         }
         // Slide 状态：Slide 结束后恢复 Idle
         if (this.state === CharState.Slide && time > this.slideEndTime) {
-            this.setState(CharState.Idle);
+            this.stateManager.changeState(CharState.Idle);
         }
 
         // 跳跃阶段转换：
         // 当处于 Jump（起跳）状态且垂直速度 >= 0 时转换到 UpToFall
         if (this.state === CharState.Jump && this.sprite.body!.velocity.y >= 0) {
-            this.setState(CharState.UpToFall);
+            this.stateManager.changeState(CharState.UpToFall);
         }
         // 当处于 UpToFall 且动画播放完毕时转换到 Fall（下落）
         else if (this.state === CharState.UpToFall) {
             if (this.sprite.anims.currentAnim && this.sprite.anims.getProgress() >= 1) {
-                this.setState(CharState.Fall);
+                this.stateManager.changeState(CharState.Fall);
             }
         }
 
@@ -356,9 +287,9 @@ export class PlayerController {
             ) {
                 this.doubleJumpUsed = false;
                 if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                    this.setState(CharState.Run);
+                    this.stateManager.changeState(CharState.Run);
                 } else {
-                    this.setState(CharState.Idle);
+                    this.stateManager.changeState(CharState.Idle);
                 }
             }
         }
@@ -385,7 +316,7 @@ export class PlayerController {
         if (Phaser.Input.Keyboard.JustDown(this.slideKey)) {
             if (time >= this.lastSlideTime + this.slideCooldown) {
                 this.lastSlideTime = time;
-                this.setState(CharState.Slide);
+                this.stateManager.changeState(CharState.Slide);
                 // 根据角色朝向设置闪避水平速度
                 this.sprite.setVelocityX(this.sprite.flipX ? -this.slideSpeed : this.slideSpeed);
                 this.slideEndTime = time + this.slideDuration;
