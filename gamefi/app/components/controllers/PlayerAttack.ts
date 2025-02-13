@@ -1,7 +1,7 @@
 // PlayerAttack.ts
 import Phaser from 'phaser';
 import { PlayerController } from './PlayerController';
-import { CharState } from './PlayerController';
+import { CharState } from './CharState';
 
 /**
  *  handle player attack input
@@ -24,14 +24,14 @@ export class PlayerAttack {
         this.controller.state === CharState.Run ||
         this.controller.state === CharState.Dash
       ) {
-        this.controller.setState(CharState.DashAttack);
+        this.controller.stateManager.changeState(CharState.DashAttack);
         return;
       }
       // if not attacking, attack combo will be triggered
       if (!this.controller.isAttacking()) {
         this.controller.attackComboStep = 0;
         this.controller.nextAttackRequested = false;
-        this.controller.setState(CharState.Attack3);
+        this.controller.stateManager.changeState(CharState.Attack3);
       } else {
         // during the attack animation, if the attack key is pressed again, the next attack will be triggered
         const progress = this.controller.sprite.anims.getProgress();

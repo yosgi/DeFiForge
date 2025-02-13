@@ -1,7 +1,7 @@
 // PlayerJump.ts
 import Phaser from 'phaser';
 import { PlayerController } from './PlayerController';
-import { CharState } from './PlayerController';
+import { CharState } from './CharState';
 
 /**
  *  handle player jump input(such as jump, double jump)
@@ -21,14 +21,14 @@ export class PlayerJump {
         this.controller.sprite.body!.blocked.down ||
         (time - this.controller.lastGroundedTime) <= this.controller.coyoteTime
       ) {
-        this.controller.setState(CharState.Jump);
+        this.controller.stateManager.changeState(CharState.Jump);
         this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
         // if jump from the ground, reset double jump
         this.controller.doubleJumpUsed = false;
       } else if (!this.controller.doubleJumpUsed) {
         // if double jump is available
         this.controller.doubleJumpUsed = true;
-        this.controller.setState(CharState.Jump);
+        this.controller.stateManager.changeState(CharState.Jump);
         this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
       }
     }
