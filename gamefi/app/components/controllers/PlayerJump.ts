@@ -4,7 +4,9 @@ import { PlayerController } from './PlayerController';
 import { CharState } from './CharState';
 
 /**
- *  handle player jump input(such as jump, double jump)
+ *  Handle player jump input (including jump and double jump),
+ *  and if the player has been running for more than 2 seconds on the ground,
+ *  then jumping will trigger an AirRun state.
  */
 export class PlayerJump {
   private controller: PlayerController;
@@ -14,33 +16,55 @@ export class PlayerJump {
   }
 
   public handleJumpInput(time: number): void {
-    // detect jump key
+    // Detect jump key press
     if (Phaser.Input.Keyboard.JustDown(this.controller.cursors.up!)) {
-        // if on the ground or in the air but within coyote time
+      // If on the ground or within coyote time (jump buffer)
       if (
         this.controller.sprite.body!.blocked.down ||
         (time - this.controller.lastGroundedTime) <= this.controller.coyoteTime
       ) {
-        this.controller.stateManager.changeState(CharState.Jump);
-        this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
-        // if jump from the ground, reset double jump
-        this.controller.doubleJumpUsed = false;
+        // Check if the player has been running continuously for 2 seconds
+        if (
+          this.controller.airRunEligible
+        ) {
+          console.log('AirRun');
+          // Enter AirRun state (i.e. airborne with maintained horizontal momentum)
+          this.controller.stateManager.changeState(CharState.AirRun);
+          this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
+          this.controller.isAirRun = true;
+          this.controller.airRunEligible = false
+          this.controller.doubleJumpUsed = false;
+        } else {
+          // Normal jump from the ground
+          console.log('Normal jump');
+          this.controller.stateManager.changeState(CharState.Jump);
+          this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
+          this.controller.doubleJumpUsed = false;
+          this.controller.isAirRun = false;
+        }
       } else if (!this.controller.doubleJumpUsed) {
-        // if double jump is available
+        // Double jump available in mid-air
         this.controller.doubleJumpUsed = true;
-        this.controller.stateManager.changeState(CharState.Jump);
+        console.log('Double jump used',this.controller.isAirRun);
+        // If already in AirRun, continue AirRun; otherwise, use normal Jump state
+        if (this.controller.isAirRun) {
+          console.log('Double jump AirRun');
+          this.controller.stateManager.changeState(CharState.AirRun);
+        } else {
+          console.log('Double jump Jump');
+          this.controller.stateManager.changeState(CharState.Jump);
+        }
         this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
       }
     }
 
-    // flexible jump height: (velocityY < 0 ) and (not holding jump key)
-    // cut the velocityY , let the jump height depend on how long the jump key is held
+    // Flexible jump height: if upward velocity and jump key is released,
+    // reduce upward velocity so that jump height depends on how long the key is held
     if (
       this.controller.sprite.body!.velocity.y < 0 &&
       !this.controller.cursors.up!.isDown
     ) {
       this.controller.sprite.setVelocityY(
-        // by multiplying the jumpCutMultiplier, the jump height can be cut
         this.controller.sprite.body!.velocity.y * this.controller.jumpCutMultiplier
       );
     }

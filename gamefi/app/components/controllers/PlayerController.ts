@@ -62,6 +62,11 @@ export class PlayerController {
     public coyoteTime: number;
     public jumpCutMultiplier: number;
     public lastGroundedTime: number = 0;
+    public runStartTime: number = 0; // 记录进入 Run 状态的开始时间
+    public isAirRun: boolean = false; // 标记是否为空中跑动状态
+    public airRunEligible: boolean = false;// 记录最后一次更新 airRunEligible 的时间（用于超时重置资格）
+    public airRunEligibleTime: number = 0;
+
 
     // 输入按键
     public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -91,7 +96,7 @@ export class PlayerController {
     // 新增：状态与动画管理模块
     public stateManager: PlayerStateManager;
     public animationManager: PlayerAnimationManager;
-
+    public bufferedAction: (() => void) | null = null;
     constructor(
         scene: Phaser.Scene,
         x: number,
@@ -107,7 +112,7 @@ export class PlayerController {
         // 配置参数（默认值）
         this.runSpeed = config?.runSpeed ?? 150;
         this.dashSpeed = config?.dashSpeed ?? 120;
-        this.slideSpeed = config?.slideSpeed ?? 400;
+        this.slideSpeed = config?.slideSpeed ?? 300;
         this.jumpVelocity = config?.jumpVelocity ?? -500;
         this.dashDuration = config?.dashDuration ?? 250;
         this.doubleTapThreshold = config?.doubleTapThreshold ?? 300;
@@ -125,7 +130,7 @@ export class PlayerController {
         this.lastGroundedTime = 0;
 
         // 新增 dashAttack 参数
-        this.dashAttackInitialSpeed = config?.dashAttackInitialSpeed ?? 200;
+        this.dashAttackInitialSpeed = config?.dashAttackInitialSpeed ?? 700;
         this.dashAttackDeceleration = config?.dashAttackDeceleration ?? 0.95;
 
 
@@ -195,17 +200,30 @@ export class PlayerController {
                 }
                 // Dash 攻击结束后
                 else if (anim.key === this.dashAttackAnimation && this.state === CharState.DashAttack) {
-                    if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                        this.stateManager.changeState(CharState.Run);
+                    if (this.nextAttackRequested) {
+                        // 如果在 DashAttack 期间玩家请求了连击，
+                        // 则切换到普通攻击连击的第2段
+                        this.stateManager.changeState(CharState.Attack2);
+                        this.nextAttackRequested = false;
+                        // 设置连击步数（例如从 1 开始）
+                        this.attackComboStep = 1;
                     } else {
-                        this.stateManager.changeState(CharState.Idle);
+                        if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
+                            this.stateManager.changeState(CharState.Run);
+                        } else {
+                            this.stateManager.changeState(CharState.Idle);
+                        }
                     }
                 }
                 // Slide 动作完成后
                 else if (anim.key === `${this.animPrefix}-slide` && this.state === CharState.Slide) {
                     this.stateManager.changeState(CharState.Idle);
                 }
-                // 对于 up_to_fall，交由 update() 检测动画进度转换到 Fall 状态
+                if (this.bufferedAction) {
+                    const action = this.bufferedAction;
+                    this.bufferedAction = null;
+                    action();
+                }
             }
         );
     }
@@ -225,9 +243,21 @@ export class PlayerController {
      */
     public update(time: number, delta: number): void {
         if (this.isDead) return;
-        // 着地检测：当角色触地时，重置二段跳标记，并记录最后着地时间
+
+
+        // 跳跃阶段转换：
+        // 当处于 Jump（起跳）状态且垂直速度 >= 0 时转换到 UpToFall
+        if (this.state === CharState.Jump && this.sprite.body!.velocity.y >= 0) {
+            this.stateManager.changeState(CharState.UpToFall);
+        }
+        // 当处于 UpToFall 且动画播放完毕时转换到 Fall（下落）
+        else if (this.state === CharState.UpToFall) {
+            if (this.sprite.anims.currentAnim && this.sprite.anims.getProgress() >= 1) {
+                this.stateManager.changeState(CharState.Fall);
+            }
+        }
+        // 着地检测：当角色触地时，若处于跳跃状态则重置二段跳标记，并根据是否有水平输入切换到 Run 或 Idle
         if (this.sprite.body!.blocked.down) {
-            this.lastGroundedTime = time;  // 记录当前时间作为最近一次着地时间
             if (
                 this.state === CharState.Jump ||
                 this.state === CharState.UpToFall ||
@@ -247,61 +277,35 @@ export class PlayerController {
             this.stateManager.changeState(CharState.Idle);
             this.sprite.setVelocityX(0);
         }
+
         // Slide 状态：Slide 结束后恢复 Idle
         if (this.state === CharState.Slide && time > this.slideEndTime) {
             this.stateManager.changeState(CharState.Idle);
         }
 
-        // 跳跃阶段转换：
-        // 当处于 Jump（起跳）状态且垂直速度 >= 0 时转换到 UpToFall
-        if (this.state === CharState.Jump && this.sprite.body!.velocity.y >= 0) {
-            this.stateManager.changeState(CharState.UpToFall);
-        }
-        // 当处于 UpToFall 且动画播放完毕时转换到 Fall（下落）
-        else if (this.state === CharState.UpToFall) {
-            if (this.sprite.anims.currentAnim && this.sprite.anims.getProgress() >= 1) {
-                this.stateManager.changeState(CharState.Fall);
-            }
-        }
-
         // DashAttack 状态：更新惯性推进（如果处于 dash_attack 状态）
         if (this.state === CharState.DashAttack) {
             // 逐帧衰减水平速度
-            const newVelocityX = this.sprite.body!.velocity.x * this.dashAttackDeceleration;
+            console.log('this.sprite.body!.velocity.x', this.sprite.body!.velocity.x);
+            const newVelocityX = this.sprite.body!.velocity.x * this.dashAttackDeceleration
             this.sprite.setVelocityX(newVelocityX);
         }
         // 非攻击、非 Slide、非 DashAttack状态下，处理移动输入
-        else if (!this.isAttacking() && this.state !== CharState.Slide) {
-            this.movement.handleMovementInput(time);
+        else if (!this.isAttacking()) {
+            if (this.state !== CharState.Slide) {
+                // 当不处于 Slide 状态时，调用移动模块更新速度
+                this.movement.handleMovementInput(time);
+            }
         } else {
             // 攻击、闪避期间禁止水平移动（DashAttack 状态单独处理）
             this.sprite.setVelocityX(0);
         }
-
-        // 着地检测：当角色触地时，若处于跳跃状态则重置二段跳标记，并根据是否有水平输入切换到 Run 或 Idle
-        if (this.sprite.body!.blocked.down) {
-            if (
-                this.state === CharState.Jump ||
-                this.state === CharState.UpToFall ||
-                this.state === CharState.Fall
-            ) {
-                this.doubleJumpUsed = false;
-                if (this.cursors.left?.isDown || this.cursors.right?.isDown) {
-                    this.stateManager.changeState(CharState.Run);
-                } else {
-                    this.stateManager.changeState(CharState.Idle);
-                }
-            }
+        if (this.bufferedAction) {
+            console.log('bufferedAction');
+            const action = this.bufferedAction;
+            this.bufferedAction = null;
+            action();
         }
-
-        // 如果不处于攻击、Slide、DashAttack状态，则允许处理移动输入
-        if (!this.isAttacking() && this.state !== CharState.Slide && this.state !== CharState.DashAttack) {
-            this.movement.handleMovementInput(time);
-        } else {
-            // 攻击、闪避期间禁止水平移动
-            this.sprite.setVelocityX(0);
-        }
-
         // 分别处理跳跃、攻击和闪避输入
         this.jump.handleJumpInput(time);
         this.attack.handleAttackInput();
@@ -314,6 +318,9 @@ export class PlayerController {
      */
     private handleSlideInput(time: number): void {
         if (Phaser.Input.Keyboard.JustDown(this.slideKey)) {
+            if (this.state === CharState.Slide || this.isJumping() || this.isAttacking()) {
+                return
+            }
             if (time >= this.lastSlideTime + this.slideCooldown) {
                 this.lastSlideTime = time;
                 this.stateManager.changeState(CharState.Slide);
@@ -331,6 +338,14 @@ export class PlayerController {
             }
         }
     }
+    public isJumping(): boolean {
+        return (
+            this.state === CharState.Jump ||
+            this.state === CharState.UpToFall ||
+            this.state === CharState.Fall ||
+            this.state === CharState.AirRun
+        )
+    }
 
     /**
      * 辅助方法：判断当前是否处于攻击状态
@@ -342,5 +357,8 @@ export class PlayerController {
             this.state === CharState.Attack3 ||
             this.state === CharState.DashAttack
         );
+    }
+    public bufferAction(action: () => void): void {
+        this.bufferedAction = action;
     }
 }

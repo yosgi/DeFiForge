@@ -22,7 +22,7 @@ export function loadPlayerSpriteSheets(scene: Phaser.Scene,
     
     actions.forEach(action => {
         scene.load.spritesheet(`${prefix}_${action}`, `${folder}/${action}/${action}.png`, {
-            frameWidth: action === "dash_attack" ?width + 5 : width,
+            frameWidth: action === "dash_attack" || action=="attack3" ?width + 5 : width,
             frameHeight: height,
         });
     });
@@ -40,9 +40,9 @@ export function createPlayerAnimations(scene: Phaser.Scene, prefix = 'player') {
     const animations = {
         'idle': { frames: 6, frameRate: 6, repeat: -1 },
         'run': { frames: 8, frameRate: 10, repeat: -1},
-        'attack3': { frames: 12, frameRate: 10, repeat: 0 },
-        'attack2': { frames: 7, frameRate: 10, repeat: 0 },
-        'attack1': { frames: 7, frameRate: 10, repeat: 0 },
+        'attack3': { frames: 13, frameRate: 10, repeat: 0 },
+        'attack2': { frames: 12, frameRate: 11, repeat: 0 },
+        'attack1': { frames: 6, frameRate: 10, repeat: 0 },
         'crouch': { frames: 6, frameRate: 8, repeat: -1 },
         'dash': { frames: 4, frameRate: 10, repeat: 0 },
         'dash_attack': { frames: 10, frameRate: 10, repeat: 0 },
