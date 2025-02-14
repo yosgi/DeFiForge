@@ -33,6 +33,10 @@ export class PlayerAttack {
         this.controller.runStartTime = 0
         return;
       }
+      if (this.controller.isJumping()) {
+        this.controller.stateManager.changeState(CharState.Attack3);
+        return;
+      }
       // if not attacking, attack combo will be triggered
       if (!this.controller.isAttacking()) {
         this.controller.attackComboStep = 0;
