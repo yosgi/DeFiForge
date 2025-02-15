@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { PlayerController } from './controllers/PlayerController';
 import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/PlayerSpriteLoader';
+import { AIController } from './controllers/AI/AIController';
+import { CharState } from './controllers/CharState';
 
 // 如果你仍有需要 hp 字段，可定义
 interface SpriteWithHP extends Phaser.Physics.Arcade.Sprite {
@@ -9,7 +11,7 @@ interface SpriteWithHP extends Phaser.Physics.Arcade.Sprite {
 
 export class BattleScene extends Phaser.Scene {
   private playerCtrl!: PlayerController;
-  private monsterCtrl!: PlayerController;
+  private monsterCtrl!: AIController;
 
   private playerSprite!: SpriteWithHP;
   private monsterSprite!: SpriteWithHP;
@@ -28,7 +30,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 分别加载“player”资源 & “monster”资源
     loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
-    // loadPlayerSpriteSheets(this, 'assets/monster', 'monster', { width: 128, height: 128 });
+    loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
   }
 
   public create(): void {
@@ -41,7 +43,7 @@ export class BattleScene extends Phaser.Scene {
   
     // 创建动画 (player / monster)
     createPlayerAnimations(this, 'hero');
-    // createPlayerAnimations(this, 'monster');
+    createPlayerAnimations(this, 'hero');
 
     // ============ 创建玩家 ============
     // 1) 用 PlayerController, 传入初始纹理 (如 'player_idle')
@@ -51,6 +53,7 @@ export class BattleScene extends Phaser.Scene {
     this.playerSprite.hp = 100;
     this.playerSprite.setCollideWorldBounds(true);
     this.physics.add.collider(this.playerSprite, ground);
+    (window as any).playerSprite = this.playerSprite;
     // HP 文本
     this.playerHpText = this.add.text(20, 20, `PLAYER HP: ${this.playerSprite.hp}`, {
       fontSize: '16px',
@@ -58,47 +61,60 @@ export class BattleScene extends Phaser.Scene {
     });
 
     // ============ 创建怪物 ============
-    // 2) 再来一个 PlayerController / 或 AIController
-    //    并给它用“monster_idle”作为纹理
-    // this.monsterCtrl = new PlayerController(this, 600, 300, 'monster_idle');
-    // this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
-    // this.monsterSprite.hp = 100;
-    // this.monsterSprite.setCollideWorldBounds(true);
-    // this.physics.add.collider(this.monsterSprite, ground);
+     // ============ 创建对手（怪物/AI） ============
+     this.monsterCtrl = new AIController(this, 600, 300, 'hero_idle', {
+      hp: 100,
+      scaleFactor: 1.5,
+      debug: true,
+      // 可传入 AI 专用参数，如 dashAttackInitialSpeed、dashAttackDeceleration 等
+      dashAttackInitialSpeed: 700,
+      dashAttackDeceleration: 0.95
+    });
+    this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
+    this.monsterSprite.hp = 100;
+    this.monsterSprite.setCollideWorldBounds(true);
+    this.physics.add.collider(this.monsterSprite, ground);
 
-    // // HP 文本
-    // this.monsterHpText = this.add.text(600, 20, `MONSTER HP: ${this.monsterSprite.hp}`, {
-    //   fontSize: '16px',
-    //   color: '#ffffff'
-    // });
+    this.monsterHpText = this.add.text(600, 20, `MONSTER HP: ${this.monsterSprite.hp}`, {
+      fontSize: '16px',
+      color: '#ffffff'
+    });
 
     // 播放 Idle 动画
     this.playerSprite.play('hero-idle');
-    // this.monsterSprite.play('monster-idle');
+    this.monsterSprite.play('hero-idle');
   }
 
   public update(time: number, delta: number): void {
     // 更新玩家
     this.playerCtrl.update(time, delta);
     // 更新怪物
-    // this.monsterCtrl.update(time, delta);
+    this.monsterCtrl.update(time, delta);
 
     // 刷新 HP 文本
     this.playerHpText.setText(`PLAYER HP: ${this.playerSprite.hp}`);
-    // this.monsterHpText.setText(`MONSTER HP: ${this.monsterSprite.hp}`);
+    this.monsterHpText.setText(`MONSTER HP: ${this.monsterSprite.hp}`);
 
     // 如果你需要碰撞检测(攻击命中等)，可以在这里
-    // this.checkAttackCollision(time);
+    this.checkAttackCollision();
   }
 
   // 示例：如果要做攻击命中检测，就这么写
-  /*
-  private checkAttackCollision(time: number) {
-    // e.g. use distance or overlap to see if monster is hit
-    // If (playerCtrl is attacking && distance < 50) => monsterSprite.hp -= 10
-    // ...
+
+  private checkAttackCollision(): void {
+    // 如果玩家正在攻击
+    const attackStates = [CharState.Attack1, CharState.Attack2, CharState.Attack3, CharState.DashAttack];
+    if (attackStates.includes(this.playerCtrl.state)) {
+      // 使用 Phaser 的 overlap 检测两个精灵的重叠
+      if (this.physics.overlap(this.playerSprite, this.monsterSprite)) {
+        // 命中：减少对手 HP（这里仅示例减少 10 点）
+        this.monsterSprite.hp -= 10;
+        console.log('Hit! Monster HP:', this.monsterSprite.hp);
+        // 你可以在这里添加其他效果，如播放受击动画、生成粒子特效等
+      }
+    }
   }
-  */
+
 }
 
 // Phaser 游戏配置

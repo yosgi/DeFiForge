@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import { PlayerController } from './PlayerController';
 import { CharState } from './CharState';
+import { BaseController } from './BaseController';
 
 /**
  *  Handle player jump input (including jump and double jump),
@@ -9,15 +10,24 @@ import { CharState } from './CharState';
  *  then jumping will trigger an AirRun state.
  */
 export class PlayerJump {
-  private controller: PlayerController;
+  private controller: PlayerController |BaseController;
 
-  constructor(controller: PlayerController) {
+  constructor(controller: PlayerController | BaseController) {
     this.controller = controller;
   }
 
+  private getJumpInput(): boolean {
+    // 如果存在 aiInput，则直接返回 aiInput.up（假设 AI 在需要触发跳跃时只给 true 一帧）
+    if ((this.controller as any).aiInput !== undefined) {
+      return (this.controller as any).aiInput.up;
+    }
+    return Phaser.Input.Keyboard.JustDown(this.controller.cursors!.up!);
+  }
+
+
   public handleJumpInput(time: number): void {
     // Detect jump key press
-    if (Phaser.Input.Keyboard.JustDown(this.controller.cursors.up!)) {
+    if (this.getJumpInput()) {
       // If on the ground or within coyote time (jump buffer)
       if (
         this.controller.sprite.body!.blocked.down ||
@@ -56,13 +66,18 @@ export class PlayerJump {
         }
         this.controller.sprite.setVelocityY(this.controller.jumpVelocity);
       }
+
+      
     }
 
     // Flexible jump height: if upward velocity and jump key is released,
     // reduce upward velocity so that jump height depends on how long the key is held
+    const jumpHeld = (this.controller as any).aiInput 
+      ? (this.controller as any).aiInput.up 
+      : this.controller.cursors?.up?.isDown;
     if (
       this.controller.sprite.body!.velocity.y < 0 &&
-      !this.controller.cursors.up!.isDown
+      !jumpHeld
     ) {
       this.controller.sprite.setVelocityY(
         this.controller.sprite.body!.velocity.y * this.controller.jumpCutMultiplier

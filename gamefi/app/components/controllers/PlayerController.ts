@@ -86,7 +86,7 @@ export class PlayerController {
     public dashAttackInitialSpeed: number;
     public dashAttackDeceleration: number;
 
-    private dashAttackAnimation: string;
+    public dashAttackAnimation: string;
 
     // 子模块
     public movement: PlayerMovement;
@@ -145,7 +145,7 @@ export class PlayerController {
         this.attackKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         this.blockKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.slideKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
+        
         // 设置攻击动画（连击）和 dash 攻击动画
         this.normalAttackAnimations = [
             `${this.animPrefix}-attack1`,
@@ -219,11 +219,12 @@ export class PlayerController {
                 else if (anim.key === `${this.animPrefix}-slide` && this.state === CharState.Slide) {
                     this.stateManager.changeState(CharState.Idle);
                 }
+                // 对于 up_to_fall，交由 update() 检测动画进度转换到 Fall 状态
                 if (this.bufferedAction) {
                     const action = this.bufferedAction;
                     this.bufferedAction = null;
                     action();
-                }
+                  }
             }
         );
     }
