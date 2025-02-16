@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { PlayerController } from './controllers/PlayerController';
+import { PlayerController } from './controllers/Player/PlayerController';
 import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/HeroSpriteLoader';
 import { loadVagabondMaterials , createVagabondAnimations } from './assets/VagabondSpriteLoader';
 import { AIController } from './controllers/AI/AIController';
@@ -50,7 +50,7 @@ export class BattleScene extends Phaser.Scene {
     // 1) 用 PlayerController, 传入初始纹理 
     this.playerCtrl = new PlayerController(this, 100, 300, 'hero_idle');
     this.playerSprite = this.playerCtrl.sprite as SpriteWithHP;
-    this.playerSprite.setScale(1.5);
+    this.playerSprite.setScale(1);
     this.playerSprite.hp = 100;
     this.playerSprite.setCollideWorldBounds(true);
     this.physics.add.collider(this.playerSprite, ground);
@@ -74,7 +74,7 @@ export class BattleScene extends Phaser.Scene {
     });
     this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
     this.monsterSprite.hp = 100;
-    this.monsterSprite.setScale(2.5);
+    this.monsterSprite.setScale(1.5);
     this.monsterSprite.setCollideWorldBounds(true);
     this.physics.add.collider(this.monsterSprite, ground);
 
@@ -102,20 +102,27 @@ export class BattleScene extends Phaser.Scene {
     this.checkAttackCollision();
   }
 
-  // 示例：如果要做攻击命中检测，就这么写
+
 
   private checkAttackCollision(): void {
     // 如果玩家正在攻击
-    const attackStates = [CharState.Attack1, CharState.Attack2, CharState.Attack3, CharState.DashAttack];
+    const attackStates = [
+      CharState.Attack1,
+      CharState.Attack2,
+      CharState.Attack3,
+      CharState.DashAttack
+    ];
     if (attackStates.includes(this.playerCtrl.state)) {
-      // 使用 Phaser 的 overlap 检测两个精灵的重叠
+      // 使用 Phaser.Physics.Arcade.overlap 检测玩家与怪物是否重叠
       if (this.physics.overlap(this.playerSprite, this.monsterSprite)) {
-        // 命中：减少对手 HP（这里仅示例减少 10 点）
-        this.monsterSprite.hp -= 10;
-        console.log('Hit! Monster HP:', this.monsterSprite.hp);
-        // 你可以在这里添加其他效果，如播放受击动画、生成粒子特效等
+        // 根据双方位置确定击退方向
+        const hitDirection = this.playerSprite.x < this.monsterSprite.x ? 'right' : 'left';
+        // 调用 AI 角色的 onHit 方法，减少一定伤害（例如10）
+        this.monsterCtrl.onHit(10 / 100, hitDirection);
       }
     }
+    // 
+    
   }
 
 }
@@ -129,7 +136,7 @@ export const config: Phaser.Types.Core.GameConfig = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0, y: 1400 },
-      debug: true
+      debug: false
     }
   },
   scene: [BattleScene]

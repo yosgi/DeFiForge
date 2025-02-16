@@ -1,7 +1,7 @@
 // BaseController.ts
 import Phaser from 'phaser';
 import { CharState } from './CharState';
-import { PlayerConfig } from './PlayerController';
+import { PlayerConfig } from './Player/PlayerController';
 import { PlayerStateManager } from './PlayerStateManager';
 import { PlayerAnimationManager } from './PlayerAnimationManager';
 import { PlayerMovement } from './PlayerMovement';
@@ -139,7 +139,9 @@ export abstract class BaseController {
       console.debug(`Playing animation: ${animKey}`);
     }
   }
-  
+
+
+
   public isJumping(): boolean {
     return (
       this.state === CharState.Jump ||
@@ -150,10 +152,56 @@ export abstract class BaseController {
   }
   public isAttacking(): boolean {
     return (
-        this.state === CharState.Attack1 ||
-        this.state === CharState.Attack2 ||
-        this.state === CharState.Attack3 ||
-        this.state === CharState.DashAttack
+      this.state === CharState.Attack1 ||
+      this.state === CharState.Attack2 ||
+      this.state === CharState.Attack3 ||
+      this.state === CharState.DashAttack
     );
-}
+  }
+
+  /**
+   * 当角色受到攻击时调用，执行受击反馈
+   * @param damage 伤害值
+   * @param hitDirection 击退方向（'left' 或 'right'）
+   */
+  public onHit(damage: number, hitDirection: 'left' | 'right'): void {
+    // 如果已经在受击状态，则不重复扣血
+    if (this.state === CharState.Hurt) return;
+    
+    this.hp -= damage;
+    (this.sprite as any).hp = Math.floor(this.hp);
+  
+    if (this.hp <= 0) {
+      this.die();
+      return;
+    }
+    
+    this.stateManager.changeState(CharState.Hurt);
+    this.playAnimationIfNotPlaying(`${this.animPrefix}-hurt`);
+  
+    const knockbackSpeed = 200;
+    if (hitDirection === 'left') {
+      this.sprite.setVelocityX(-knockbackSpeed);
+    } else {
+      this.sprite.setVelocityX(knockbackSpeed);
+    }
+  
+    this.sprite.setTint(0xff0000);
+    this.scene.time.delayedCall(200, () => {
+      this.sprite.clearTint();
+    });
+  }
+  
+
+  /**
+   * 当血量耗尽时调用，处理角色死亡
+   */
+  public die(): void {
+    this.stateManager.changeState(CharState.Death);
+    this.playAnimationIfNotPlaying(`${this.animPrefix}-death`);
+    // 禁用碰撞、输入、动作更新等
+    this.isDead = true;
+    this.sprite.setVelocity(0);
+    // 这里可以进一步处理死亡后的逻辑（例如重启关卡）
+  }
 }

@@ -1,5 +1,5 @@
 // PlayerAnimationManager.ts
-import { PlayerController } from "./PlayerController";
+import { PlayerController } from "./Player/PlayerController";
 import { CharState } from "./CharState";
 import { BaseController } from "./BaseController";
 export class PlayerAnimationManager {
