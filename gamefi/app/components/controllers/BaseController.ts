@@ -73,6 +73,9 @@ export abstract class BaseController {
   // 输入缓冲（用于存储命令，在当前动作结束后执行）
   public bufferedAction: (() => void) | null = null;
 
+  public blockStartTime: number = 0;
+  public continuousBlock: boolean = false;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -167,31 +170,31 @@ export abstract class BaseController {
   public onHit(damage: number, hitDirection: 'left' | 'right'): void {
     // 如果已经在受击状态，则不重复扣血
     if (this.state === CharState.Hurt) return;
-    
+
     this.hp -= damage;
     (this.sprite as any).hp = Math.floor(this.hp);
-  
+
     if (this.hp <= 0) {
       this.die();
       return;
     }
-    
+
     this.stateManager.changeState(CharState.Hurt);
     this.playAnimationIfNotPlaying(`${this.animPrefix}-hurt`);
-  
+
     const knockbackSpeed = 200;
     if (hitDirection === 'left') {
       this.sprite.setVelocityX(-knockbackSpeed);
     } else {
       this.sprite.setVelocityX(knockbackSpeed);
     }
-  
+
     this.sprite.setTint(0xff0000);
     this.scene.time.delayedCall(200, () => {
       this.sprite.clearTint();
     });
   }
-  
+
 
   /**
    * 当血量耗尽时调用，处理角色死亡
@@ -203,5 +206,18 @@ export abstract class BaseController {
     this.isDead = true;
     this.sprite.setVelocity(0);
     // 这里可以进一步处理死亡后的逻辑（例如重启关卡）
+  }
+
+  public onBlocked(attacker: BaseController): void {
+    // 只有瞬间防御（连续防御不触发弹反）
+    if (!this.continuousBlock) {
+      attacker.stateManager.changeState(CharState.Stunned);
+      attacker.sprite.setVelocity(0);
+      this.scene.time.delayedCall(1000, () => {
+        if (attacker.sprite.body!.blocked.down) {
+          attacker.stateManager.changeState(CharState.Idle);
+        }
+      });
+    }
   }
 }

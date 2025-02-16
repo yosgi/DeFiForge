@@ -55,7 +55,7 @@ export class PlayerAnimationManager {
                 this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-slide`);
                 break;
             case CharState.Blocking:
-                this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-crouch`);
+                this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-block`);
                 break;
             case CharState.Stunned:
                 this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-hurt`);

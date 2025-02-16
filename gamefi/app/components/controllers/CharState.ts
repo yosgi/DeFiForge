@@ -11,7 +11,7 @@ export enum CharState {
     Attack2 = 'Attack2',
     Attack3 = 'Attack3',
     DashAttack = 'DashAttack',
-    Blocking = 'Blocking',
+    Blocking = 'Block',
     Slide = 'Slide',
     Stunned = 'Stunned',
     AirRun = 'AirRun',

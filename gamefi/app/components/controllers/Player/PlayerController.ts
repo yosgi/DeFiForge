@@ -158,8 +158,25 @@ export class PlayerController extends BaseController {
         // 初始化状态与动画管理模块
         this.animationManager = new PlayerAnimationManager(this);
         this.stateManager = new PlayerStateManager(this, this.animationManager);
-
+        
         this.setupAnimationEvents();
+    }
+
+    private handleBlockInput(time: number): void {
+        // 如果刚按下防御键，则进入 Blocking 状态，并记录开始时间
+        if (Phaser.Input.Keyboard.JustDown(this.blockKey) ) {
+          this.stateManager.changeState(CharState.Blocking);
+          this.blockStartTime = time;
+          this.continuousBlock = false; // 瞬间防御
+        }
+        // 如果防御键一直按下，则标记为持续防御
+        if (this.blockKey.isDown) {
+          this.continuousBlock = true;
+        }
+        // 如果防御键已释放且已进入 Blocking 状态，并且已超过 1 秒，则退出 Blocking 状态
+        if (this.state === CharState.Blocking && !this.blockKey.isDown && time - this.blockStartTime >= 500) {
+          this.stateManager.changeState(CharState.Idle);
+        }
     }
 
     /**
@@ -307,6 +324,7 @@ export class PlayerController extends BaseController {
         this.jump.handleJumpInput(time);
         this.attack.handleAttackInput();
         this.handleSlideInput(time);
+        this.handleBlockInput(time);
     }
 
     /**

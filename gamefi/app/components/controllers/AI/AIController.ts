@@ -13,11 +13,11 @@ export class AIController extends BaseController {
 
   // 跳跃冷却（避免连续跳跃）
   public lastJumpTime: number = 0;
-  public jumpCooldown: number = 500; // 毫秒
+  public jumpCooldown: number = 2500; // 毫秒
 
   // 决策更新间隔与反应延迟
   private lastDecisionTime: number = 0;
-  private decisionInterval: number = 150; // 每 150ms 更新一次决策
+  private decisionInterval: number = 500; // 每 150ms 更新一次决策
   private reactionDelay: number = 0; // 随机反应延迟（毫秒）
   private lastReactionTime: number = 0;
 
