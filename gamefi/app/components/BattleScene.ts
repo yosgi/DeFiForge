@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { PlayerController } from './controllers/PlayerController';
-import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/PlayerSpriteLoader';
+import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/HeroSpriteLoader';
+import { loadVagabondMaterials , createVagabondAnimations } from './assets/VagabondSpriteLoader';
 import { AIController } from './controllers/AI/AIController';
 import { CharState } from './controllers/CharState';
 
@@ -30,7 +31,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 分别加载“player”资源 & “monster”资源
     loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
-    loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
+    loadVagabondMaterials(this, 'assets/vagabond', 'AI', { width: 64, height: 64 });
   }
 
   public create(): void {
@@ -43,10 +44,10 @@ export class BattleScene extends Phaser.Scene {
   
     // 创建动画 (player / monster)
     createPlayerAnimations(this, 'hero');
-    createPlayerAnimations(this, 'hero');
+    createVagabondAnimations(this, 'AI');
 
     // ============ 创建玩家 ============
-    // 1) 用 PlayerController, 传入初始纹理 (如 'player_idle')
+    // 1) 用 PlayerController, 传入初始纹理 
     this.playerCtrl = new PlayerController(this, 100, 300, 'hero_idle');
     this.playerSprite = this.playerCtrl.sprite as SpriteWithHP;
     this.playerSprite.setScale(1.5);
@@ -62,16 +63,18 @@ export class BattleScene extends Phaser.Scene {
 
     // ============ 创建怪物 ============
      // ============ 创建对手（怪物/AI） ============
-     this.monsterCtrl = new AIController(this, 600, 300, 'hero_idle', {
+     this.monsterCtrl = new AIController(this, 600, 300, 'AI_idle', {
       hp: 100,
       scaleFactor: 1.5,
       debug: true,
       // 可传入 AI 专用参数，如 dashAttackInitialSpeed、dashAttackDeceleration 等
       dashAttackInitialSpeed: 700,
-      dashAttackDeceleration: 0.95
+      dashAttackDeceleration: 0.95,
+      animPrefix: 'AI',
     });
     this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
     this.monsterSprite.hp = 100;
+    this.monsterSprite.setScale(2.5);
     this.monsterSprite.setCollideWorldBounds(true);
     this.physics.add.collider(this.monsterSprite, ground);
 
@@ -82,7 +85,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 播放 Idle 动画
     this.playerSprite.play('hero-idle');
-    this.monsterSprite.play('hero-idle');
+    this.monsterSprite.play('AI-idle');
   }
 
   public update(time: number, delta: number): void {
