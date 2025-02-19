@@ -1,13 +1,15 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Button from "../components/Button";
 import { useAirdrop } from "../hooks/useAirdrop"; 
 import { WalletContext } from "../contexts/WalletContext"; // Import WalletContext
+import useMessage  from "../hooks/useMessage";
+import Message from "../components/Message";
 
 const Page = () => {
   const { connectWallet, currentAccount } = useContext(WalletContext); // Get wallet context
   const { claimAirdrop, isClaiming,isClaimed } = useAirdrop(currentAccount); // Use the airdrop hook
-
+  const { messageState, showMessage, closeMessage } = useMessage();
   // Handle claiming FORGE tokens
   const handleClaimForge = async () => {
     if (!currentAccount) {
@@ -17,6 +19,7 @@ const Page = () => {
 
     try {
       await claimAirdrop(); // Call airdrop claim function
+      showMessage("🎉 FORGE tokens successfully claimed!", "success");
     } catch (error) {
       console.error("❌ Claiming failed:", error);
     }
@@ -72,6 +75,13 @@ const Page = () => {
           </Button>
         )}
       </section>
+      {messageState.isOpen && (
+        <Message
+          message={messageState.message}
+          type={messageState.type}
+          onClose={closeMessage}
+        />
+      )}
     </div>
   );
 };

@@ -1,5 +1,4 @@
-//SPDX-License-Identifier: UNLICENSED
-
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/utils/Context.sol";
@@ -22,8 +21,8 @@ contract Staking is Ownable, ReentrancyGuard {
 
     // Info of each user.
     struct UserInfo {
-        uint256 amount; // Total amount
-        DepositItem[] depositItems; // Deposited list
+        uint256 amount; // Total amount staked by user
+        DepositItem[] depositItems; // List of individual deposits
     }
 
     IERC20 public immutable rewardToken;
@@ -38,6 +37,7 @@ contract Staking is Ownable, ReentrancyGuard {
     uint256 public withdrawFee;
 
     mapping(address => UserInfo) private userInfo;
+    address[] public stakers; // Array to record all staker addresses
 
     event Deposit(address indexed user, uint256 amount);
     event Withdraw(address indexed user, uint256 amount);
@@ -163,12 +163,17 @@ contract Staking is Ownable, ReentrancyGuard {
         return block.timestamp - depositTimestamp;
     }
 
-    // Stake primary tokens
+    // Deposit function to stake tokens.
+    // This function accepts ETH, calculates the deposit details, and adds the user's address to the stakers array if it's their first deposit.
     function deposit(uint256 _option) public payable nonReentrant {
         require(msg.value > 0, "Invalid Amount");
         require(_option == 1 || _option == 2 || _option == 3, "Invalid Option");
 
         UserInfo storage user = userInfo[msg.sender];
+        // If this is the first deposit for the user, add them to the stakers array.
+        if (user.depositItems.length == 0) {
+            stakers.push(msg.sender);
+        }
         user.amount += msg.value;
         totalStaked += msg.value;
 
@@ -198,7 +203,7 @@ contract Staking is Ownable, ReentrancyGuard {
         emit Deposit(msg.sender, msg.value);
     }
 
-    // Withdraw primary tokens from STAKING.
+    // Withdraw function to allow users to withdraw staked tokens.
     function withdraw(uint256 _index) public nonReentrant {
         require(startedTimestamp > 0, "Not started yet");
 
@@ -218,13 +223,13 @@ contract Staking is Ownable, ReentrancyGuard {
             100 /
             365 days;
 
-        // Transfer ETH back
+        // Transfer ETH back to the user.
         payable(msg.sender).transfer(amount);
 
-        // Transfer reward tokens
+        // Transfer reward tokens to the user.
         rewardToken.safeTransfer(msg.sender, reward);
 
-        // Remove the deposit item
+        // Remove the deposit item from the user's deposit list.
         for (uint256 i = _index; i < user.depositItems.length - 1; i++) {
             user.depositItems[i] = user.depositItems[i + 1];
         }
@@ -233,15 +238,16 @@ contract Staking is Ownable, ReentrancyGuard {
         emit Withdraw(msg.sender, amount);
     }
 
-    // Withdraw reward. EMERGENCY ONLY. This allows the owner to migrate rewards to a new staking pool since we are not minting new tokens.
+    // Emergency withdraw function for rewards.
     function withdrawEmergencyReward(uint256 _amount) external onlyOwner {
         require(
             _amount <= rewardToken.balanceOf(address(this)) - totalStaked,
-            "not enough tokens to take out"
+            "Not enough tokens to take out"
         );
         rewardToken.safeTransfer(address(msg.sender), _amount);
     }
 
+    // Returns the remaining rewards available in the staking pool.
     function rewardsRemaining() public view returns (uint256) {
         uint256 reward = rewardToken.balanceOf(address(this));
         if (reward > totalStaked) reward -= totalStaked;
@@ -249,6 +255,7 @@ contract Staking is Ownable, ReentrancyGuard {
         return reward;
     }
 
+    // Function to update APY values.
     function updateApy(
         uint256 newApy1,
         uint256 newApy2,
@@ -263,11 +270,13 @@ contract Staking is Ownable, ReentrancyGuard {
         apy3 = newApy3;
     }
 
+    // Function to update the exit penalty percentage.
     function updateExitPenalty(uint256 newPenaltyPerc) external onlyOwner {
         require(newPenaltyPerc <= 20, "May not set higher than 20%");
         exitPenaltyPerc = newPenaltyPerc;
     }
 
+    // Function to update the fee address and withdraw fee.
     function updateFee(
         address newFeeAddress,
         uint256 newWithdrawFee
@@ -276,9 +285,16 @@ contract Staking is Ownable, ReentrancyGuard {
         withdrawFee = newWithdrawFee;
     }
 
+    // Function to reset the staking pool (for migration or emergency purposes).
     function reset() external onlyOwner {
         uint256 balance = rewardToken.balanceOf(address(this));
         rewardToken.safeTransfer(address(msg.sender), balance);
         totalStaked = 0;
+    }
+
+    // Public getter function to return all staker addresses.
+    // Note: This function may be gas expensive if there are many stakers.
+    function getStakers() external view returns (address[] memory) {
+        return stakers;
     }
 }
