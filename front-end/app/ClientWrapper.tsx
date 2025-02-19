@@ -10,9 +10,9 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ children }) => {
     return (
        
         <WalletProvider>
-            <StakingProvider>
+            {/* <StakingProvider> */}
                 {children}
-            </StakingProvider>
+            {/* </StakingProvider> */}
         </WalletProvider>
         
     );

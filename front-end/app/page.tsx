@@ -45,8 +45,9 @@ const HomePage = () => {
         <h1 className="text-3xl sm:text-4xl font-bold text-primary">
           Welcome to DeFi Forge
         </h1>
+
         <p className="text-gray-500 mt-4 text-sm sm:text-base">
-          Discover the power of decentralized finance. Get FORGE, stake tokens, borrow, lend, and save—all in one secure platform.
+          Start to play get Airdrop, Stake tokens, Borrow, Lend, and Gamefi in one playgroud.
         </p>
       </motion.div>
 

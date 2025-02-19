@@ -1,64 +1,29 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import Button from "../components/Button";
+import { useAirdrop } from "../hooks/useAirdrop"; 
+import { WalletContext } from "../contexts/WalletContext"; // Import WalletContext
 
 const Page = () => {
-  const [canClaimForge, setCanClaimForge] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState(0);
+  const { connectWallet, currentAccount } = useContext(WalletContext); // Get wallet context
+  const { claimAirdrop, isClaiming,isClaimed } = useAirdrop(currentAccount); // Use the airdrop hook
 
-  // Retrieve the last claim timestamp from localStorage
-  useEffect(() => {
-    const lastClaimTime = localStorage.getItem("lastClaimTime");
-    if (lastClaimTime) {
-      const elapsedTime = Date.now() - parseInt(lastClaimTime, 10);
-      const cooldown = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
-      if (elapsedTime < cooldown) {
-        setCanClaimForge(false);
-        setTimeRemaining(cooldown - elapsedTime);
-      }
+  // Handle claiming FORGE tokens
+  const handleClaimForge = async () => {
+    if (!currentAccount) {
+      console.error("❌ Wallet not connected!");
+      return;
     }
-  }, []);
 
-  // Countdown timer
-  useEffect(() => {
-    if (!canClaimForge && timeRemaining > 0) {
-      const interval = setInterval(() => {
-        setTimeRemaining((prev) => {
-          if (prev <= 1000) {
-            clearInterval(interval);
-            setCanClaimForge(true);
-            return 0;
-          }
-          return prev - 1000;
-        });
-      }, 1000);
-      return () => clearInterval(interval);
+    try {
+      await claimAirdrop(); // Call airdrop claim function
+    } catch (error) {
+      console.error("❌ Claiming failed:", error);
     }
-  }, [canClaimForge, timeRemaining]);
-
-  const handleClaimForge = () => {
-    if (canClaimForge) {
-      // Simulate claiming FORGE
-      console.log("FORGE tokens claimed!");
-      localStorage.setItem("lastClaimTime", Date.now().toString());
-      setCanClaimForge(false);
-      setTimeRemaining(6 * 60 * 60 * 1000); // Reset cooldown
-    }
-  };
-
-  // Format the countdown timer as HH:MM:SS
-  const formatTime = (ms: number) => {
-    const hours = Math.floor(ms / (1000 * 60 * 60));
-    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
-    <div className="space-y-8 p-4 max-w-3xl mx-auto">
+    <div className="mt-16 space-y-8 p-4 max-w-3xl mx-auto">
       {/* Section 1: Sepolia Introduction */}
       <section className="bg-gray-100 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">What is Sepolia?</h2>
@@ -70,40 +35,41 @@ const Page = () => {
           To get started, you'll need some Sepolia tokens. These tokens are
           free and can be used to deploy and test your projects.
         </p>
-        <Button size="large"
-          onClick={() => {
-            window.open("https://sepoliafaucet.com/", "_blank");
-          }}
+        <Button
+          size="large"
+          onClick={() => window.open("https://sepoliafaucet.com/", "_blank")}
         >
-            Get Sepolia Tokens
+          Get Sepolia Tokens
         </Button>
       </section>
 
       {/* Section 2: FORGE Token Introduction */}
       <section className="bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Introducing FORGE Token</h2>
+        <h2 className="text-2xl font-bold mb-4">FORGE Token AirDrop</h2>
         <p className="text-gray-700 mb-4">
           FORGE is our platform's utility token, designed to empower users and
           facilitate interactions within the ecosystem. Claim your FORGE tokens
-          and start exploring the benefits today!
+          and start play!
         </p>
-        <Button
-          size="large"
-          onClick={handleClaimForge}
-          disabled={!canClaimForge}
-          className={`px-6 py-2 rounded ${
-            canClaimForge
-              ? "bg-green-500 text-white hover:bg-green-600"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          {canClaimForge ? "Claim FORGE Tokens" : `Wait ${formatTime(timeRemaining)}`}
-        </Button>
-        {!canClaimForge && (
-          <p className="mt-2 text-gray-600">
-            You can claim your next FORGE tokens in{" "}
-            <span className="font-bold">{formatTime(timeRemaining)}</span>.
-          </p>
+
+        {/* If wallet is not connected, show "Connect Wallet" button */}
+        {!currentAccount ? (
+          <Button size="large" onClick={connectWallet} className="text-white">
+            Connect Wallet
+          </Button>
+        ) : (
+          <Button
+            size="large"
+            onClick={handleClaimForge}
+            disabled={isClaiming || isClaimed}
+            className={`px-6 py-2 rounded ${
+              isClaiming
+                ? " text-gray-500 cursor-not-allowed"
+                : "text-white "
+            }`}
+          >
+            {isClaiming ? "Claiming..." : isClaimed? "Already Claimed":"Claim FORGE Tokens"}
+          </Button>
         )}
       </section>
     </div>
