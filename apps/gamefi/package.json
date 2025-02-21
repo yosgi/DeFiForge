@@ -15,6 +15,7 @@
     "@react-three/fiber": "^8.17.10",
     "@types/three": "^0.170.0",
     "classnames": "^2.5.1",
+    "copy-webpack-plugin": "^12.0.2",
     "ethers": "^6.13.4",
     "motion": "^11.12.0",
     "next": "^14.2.20",
@@ -22,8 +23,8 @@
     "phaser": "^3.88.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "three": "^0.171.0",
-    "gamefi": "*"
+    "shared-assets": "*",
+    "three": "^0.171.0"
   },
   "devDependencies": {
     "@types/node": "^20",

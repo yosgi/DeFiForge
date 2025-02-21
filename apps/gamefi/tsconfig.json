@@ -18,8 +18,10 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@shared-assets/*": ["../packages/shared-assets/*"]
     },
     "noUnusedLocals": false,
     "noUnusedParameters": false
