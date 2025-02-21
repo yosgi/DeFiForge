@@ -1,7 +1,10 @@
 const Token = artifacts.require("ERC20DecimalsMock");
 const Staking = artifacts.require("Staking");
 const Airdrop = artifacts.require("Airdrop");
-
+const VaultModule = artifacts.require("VaultModule");
+const NFTModule = artifacts.require("NFTModule");
+const FlashloanModule = artifacts.require("FlashloanModule");
+const LendingPool = artifacts.require("LendingPool");
 const TokenName = process.env.TOKEN_NAME || "MyToken";
 const TokenSymbol = process.env.TOKEN_SYMBOL || "MTK";
 
@@ -11,6 +14,26 @@ const path = require("path");
 module.exports = async function (deployer, network, accounts) {
   const deployerAccount = accounts[0]; // Use accounts[0] as the deployer
   console.log("🚀 Deploying from:", deployerAccount);
+
+  // 1. Deploy VaultModule
+  await deployer.deploy(VaultModule, { from: deployerAccount });
+  const vaultModule = await VaultModule.deployed();
+  console.log("✅ VaultModule deployed at:", vaultModule.address);
+
+  // 2. Deploy NFTModule
+  await deployer.deploy(NFTModule, { from: deployerAccount });
+  const nftModule = await NFTModule.deployed();
+  console.log("✅ NFTModule deployed at:", nftModule.address);
+
+  // 3. Deploy FlashloanModule
+  await deployer.deploy(FlashloanModule, { from: deployerAccount });
+  const flashloanModule = await FlashloanModule.deployed();
+  console.log("✅ FlashloanModule deployed at:", flashloanModule.address);
+
+  // 4. Deploy LendingPool with the addresses of the above modules.
+  await deployer.deploy(LendingPool, vaultModule.address, nftModule.address, flashloanModule.address, { from: deployerAccount });
+  const lendingPool = await LendingPool.deployed();
+  console.log("✅ LendingPool deployed at:", lendingPool.address);
 
   // 1. Deploy the Token contract and mint tokens to the deployer account.
   const initialSupply = web3.utils.toWei("1000000", "ether"); // 1,000,000 MTK
@@ -55,6 +78,10 @@ module.exports = async function (deployer, network, accounts) {
     TOKEN_CONTRACT_ADDRESS: mockToken.address,
     STAKING_CONTRACT_ADDRESS: staking.address,
     AIRDROP_CONTRACT_ADDRESS: airdrop.address,
+    VAULT_MODULE_ADDRESS: vaultModule.address,
+    NFT_MODULE_ADDRESS: nftModule.address,
+    FLASHLOAN_MODULE_ADDRESS: flashloanModule.address,
+    LENDING_POOL_ADDRESS: lendingPool.address,
   };
 
   // Define the target file path (adjust the path as needed)
