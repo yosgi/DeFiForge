@@ -37,7 +37,7 @@ export class AIController extends BaseController {
   }
 
   private calculateDifficulty(): number {
-    const winCount = window['playerWinCount'] || 0;
+    const winCount = (window as any)['playerWinCount'] || 0;
     if (winCount < 3) return 1;
     if (winCount < 6) return 2;
     return 3;
@@ -68,7 +68,7 @@ export class AIController extends BaseController {
     this.lastReactionTime = time;
 
     // 获取玩家精灵（全局存储，或从 GameManager 中获取）
-    const playerSprite: Phaser.Physics.Arcade.Sprite = window['playerSprite'];
+    const playerSprite: Phaser.Physics.Arcade.Sprite = (window as any)['playerSprite'];
     let distance = 300;
     if (playerSprite) {
       distance = Math.abs(this.sprite.x - playerSprite.x);
