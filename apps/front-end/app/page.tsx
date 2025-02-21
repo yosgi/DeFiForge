@@ -4,30 +4,30 @@ import { motion } from "framer-motion";
 const features = [
   {
     title: "Get FORGE",
-    description: "Acquire FORGE tokens and unlock the power of decentralized finance.",
+    description: "Acquire FORGE tokens Airdrop.",
     buttonText: "Get FORGE",
-    buttonLink: "/get-forge",
+    buttonLink: "/forge",
     icon: "fire", // Replace with your icon
   },
   {
     title: "Stake",
-    description: "Stake your FORGE tokens to earn IGNIS rewards with competitive APYs.",
+    description: "Stake your Sepolia tokens to earn FORGE rewards.",
     buttonText: "Start Staking",
     buttonLink: "/stake",
     icon: "iron", // Replace with your icon
   },
   {
     title: "Borrow & Lend",
-    description: "Access decentralized borrowing and lending with your FORGE tokens.",
+    description: " borrowing and lending with your FORGE tokens.",
     buttonText: "Borrow Now",
     buttonLink: "/borrow",
     icon: "crysto", // Replace with your icon
   },
   {
-    title: "Save",
-    description: "Save your FORGE tokens securely and earn stable rewards.",
-    buttonText: "Start Saving",
-    buttonLink: "/save",
+    title: "Gamefi",
+    description: "Play game using FORGE tokens.",
+    buttonText: "Start Gaming",
+    buttonLink: "/gamefi",
     icon: "shild", // Replace with your icon
   },
 ];

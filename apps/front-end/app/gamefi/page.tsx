@@ -143,23 +143,6 @@ const GamePage = (): JSX.Element => {
         <KeyButton label="D" active={activeKey === "d"} />
         <KeyButton label="F" active={activeKey === "f"} />
       </div>
-
-      {/* English instructions and hints */}
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          fontSize: "16px",
-          lineHeight: "1.5",
-          maxWidth: "800px",
-        }}
-      >
-        <p>Use the Arrow keys (Up, Left, Right) to move.</p>
-        <p>Double-tap the Up Arrow for a double jump.</p>
-        <p>Press Shift to dodge.</p>
-        <p>Press 'D' to defend and 'F' to attack.</p>
-        <p>The pressed key will be highlighted.</p>
-      </div>
     </div>
   );
 };
