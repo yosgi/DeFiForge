@@ -1,5 +1,4 @@
 "use client";
-import * as THREE from 'three'
 import React, { useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 

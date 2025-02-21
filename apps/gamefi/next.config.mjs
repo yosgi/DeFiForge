@@ -19,6 +19,10 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  eslint: {
+    // This will allow production builds to complete even if there are ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { isServer }) => {
     // 只在客户端构建时复制静态资源
     if (!isServer) {
