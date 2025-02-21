@@ -8,7 +8,7 @@ interface KeyButtonProps {
   active: boolean;
 }
 
-const KeyButton: React.FC<KeyButtonProps> = ({ label, active }) => {
+function KeyButton({ label, active }: KeyButtonProps): JSX.Element {
   const style: React.CSSProperties = {
     width: "60px",
     height: "60px",
@@ -24,14 +24,20 @@ const KeyButton: React.FC<KeyButtonProps> = ({ label, active }) => {
     boxShadow: active ? "0 0 10px #ffeb3b" : "none",
   };
   return <div style={style}>{label}</div>;
-};
+}
 
-const GamePage: React.FC = () => {
+const GamePage = (): JSX.Element => {
   const [activeKey, setActiveKey] = useState<string>("");
-  // Use a ref to track the last ArrowUp press time for double-tap detection
+  // Use a ref to keep track of the current activeKey without triggering re-renders
+  const activeKeyRef = useRef(activeKey);
+  // Ref for double-tap detection on ArrowUp
   const lastArrowUpTime = useRef<number | null>(null);
 
-  // Handle key down events
+  // Update ref when state changes
+  useEffect(() => {
+    activeKeyRef.current = activeKey;
+  }, [activeKey]);
+
   const handleKeyDown = (e: KeyboardEvent) => {
     let key = e.key.toLowerCase();
 
@@ -45,7 +51,6 @@ const GamePage: React.FC = () => {
     // Handle Arrow keys
     if (e.key === "ArrowUp") {
       const now = Date.now();
-      // If the time difference is less than 300ms, register as a double-tap
       if (lastArrowUpTime.current && now - lastArrowUpTime.current < 300) {
         key = "doubleup";
       } else {
@@ -58,15 +63,12 @@ const GamePage: React.FC = () => {
 
     // Only handle defined keys
     if (
-      ["arrowup", "doubleup", "arrowleft", "arrowright", "d", "f", "shift"].includes(
-        key
-      )
+      ["arrowup", "doubleup", "arrowleft", "arrowright", "d", "f", "shift"].includes(key)
     ) {
       setActiveKey(key);
     }
   };
 
-  // Handle key up events
   const handleKeyUp = (e: KeyboardEvent) => {
     let key = e.key.toLowerCase();
     if (e.key === "Shift") key = "shift";
@@ -74,12 +76,13 @@ const GamePage: React.FC = () => {
     if (e.key === "ArrowLeft") key = "arrowleft";
     if (e.key === "ArrowRight") key = "arrowright";
 
-    // If the released key is currently active, reset the active key
-    if (activeKey === key || activeKey === "doubleup") {
+    // Use the ref's current value to decide if we should clear the active key
+    if (activeKeyRef.current === key || activeKeyRef.current === "doubleup") {
       setActiveKey("");
     }
   };
 
+  // Add event listeners once on mount
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -87,7 +90,7 @@ const GamePage: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [activeKey]);
+  }, []);
 
   return (
     <div
@@ -109,7 +112,7 @@ const GamePage: React.FC = () => {
         <h1 style={{ fontSize: "32px", margin: "10px 0" }}>Pixel Fighter</h1>
       </div>
 
-      {/* Centered game container with fixed size matching the game area */}
+      {/* Centered game container with fixed dimensions */}
       <div
         style={{
           width: "800px",
@@ -141,7 +144,7 @@ const GamePage: React.FC = () => {
         <KeyButton label="F" active={activeKey === "f"} />
       </div>
 
-      {/* Instructions and hints in English */}
+      {/* English instructions and hints */}
       <div
         style={{
           textAlign: "center",
@@ -151,11 +154,11 @@ const GamePage: React.FC = () => {
           maxWidth: "800px",
         }}
       >
-        {/* <p>Use the Arrow keys (Up, Left, Right) to move.</p>
+        <p>Use the Arrow keys (Up, Left, Right) to move.</p>
         <p>Double-tap the Up Arrow for a double jump.</p>
         <p>Press Shift to dodge.</p>
         <p>Press 'D' to defend and 'F' to attack.</p>
-        <p>The pressed key will be highlighted.</p> */}
+        <p>The pressed key will be highlighted.</p>
       </div>
     </div>
   );

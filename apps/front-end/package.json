@@ -16,10 +16,7 @@
     "classnames": "^2.5.1",
     "ethers": "^6.13.4",
     "motion": "^11.12.0",
-    "next": "15.0.3",
     "next-intl": "^3.25.1",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
     "gamefi": "*",
     "shared-assets": "*"
   },
@@ -28,7 +25,6 @@
     "@types/node-fetch": "^2.6.12",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "long": "^5.3.1",
