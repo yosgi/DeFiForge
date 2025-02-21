@@ -1,13 +1,14 @@
 // PlayerStateManager.ts
-import { PlayerController } from "./PlayerController";
+import { PlayerController } from "./Player/PlayerController";
 import { PlayerAnimationManager } from "./PlayerAnimationManager";
 import { CharState } from "./CharState";
+import {BaseController } from "./BaseController";
 
 export class PlayerStateManager {
-  private controller: PlayerController;
+  private controller: PlayerController | BaseController;
   private animationManager: PlayerAnimationManager;
 
-  constructor(controller: PlayerController, animationManager: PlayerAnimationManager) {
+  constructor(controller: PlayerController | BaseController, animationManager: PlayerAnimationManager) {
     this.controller = controller;
     this.animationManager = animationManager;
   }

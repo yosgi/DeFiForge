@@ -1,7 +1,8 @@
 // PlayerAttack.ts
 import Phaser from 'phaser';
-import { PlayerController } from './PlayerController';
+import { PlayerController } from './Player/PlayerController';
 import { CharState } from './CharState';
+import { BaseController } from './BaseController';
 
 /**
  *  handle player attack input
@@ -11,15 +12,22 @@ import { CharState } from './CharState';
  */
 
 export class PlayerAttack {
-  private controller: PlayerController;
+  private controller: PlayerController | BaseController;
   private attackBufferThreshold: number = 0.5; 
 
-  constructor(controller: PlayerController) {
+  constructor(controller: BaseController) {
     this.controller = controller;
   }
-
+  private getAttackInput(): boolean {
+    if ((this.controller as any).aiInput !== undefined) {
+      return (this.controller as any).aiInput.attack;
+    }
+    // 现在 BaseController 定义了 attackKey（可选），我们使用断言来确保它存在
+    return Phaser.Input.Keyboard.JustDown(this.controller.attackKey!);
+  }
+  
   public handleAttackInput(): void {
-    if (Phaser.Input.Keyboard.JustDown(this.controller.attackKey)) {
+    if (this.getAttackInput()) {
  
         // if in the state of Run or Dash, dash attack will be triggered
       if (

@@ -1,7 +1,8 @@
 // PlayerMovement.ts
 import Phaser from 'phaser';
-import { PlayerController } from './PlayerController';
+import { PlayerController } from './Player/PlayerController';
 import { CharState } from './CharState';
+import { BaseController } from './BaseController';
 
 /**
  *  Handle player movement input.
@@ -9,9 +10,9 @@ import { CharState } from './CharState';
  *  transition into Dash state as a running-to-dash transition.
  */
 export class PlayerMovement {
-  private controller: PlayerController;
+  private controller: PlayerController | BaseController;
 
-  constructor(controller: PlayerController) {
+  constructor(controller: PlayerController | BaseController) {
     this.controller = controller;
   }
 
@@ -20,9 +21,11 @@ export class PlayerMovement {
     let moving = false;
     // 判断是否在空中
     const isAirborne = !this.controller.sprite.body!.blocked.down;
-    
+    const input = (this.controller as any).aiInput || this.controller.cursors;
+    const leftPressed = typeof input.left === 'boolean' ? input.left : input.left?.isDown;
+    const rightPressed = typeof input.right === 'boolean' ? input.right : input.right?.isDown;
     // 检测左右方向键
-    if (this.controller.cursors.left?.isDown) {
+    if (leftPressed) {
       velocityX = -this.controller.runSpeed;
       moving = true;
       this.controller.sprite.setFlipX(true);
@@ -31,7 +34,7 @@ export class PlayerMovement {
         this.controller.stateManager.changeState(CharState.Run);
       }
       this.controller.lastDirection = 'left';
-    } else if (this.controller.cursors.right?.isDown) {
+    } else if (rightPressed) {
       velocityX = this.controller.runSpeed;
       moving = true;
       this.controller.sprite.setFlipX(false);

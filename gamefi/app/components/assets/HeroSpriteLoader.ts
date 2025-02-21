@@ -17,7 +17,7 @@ export function loadPlayerSpriteSheets(scene: Phaser.Scene,
     const actions = [
         'attack1','attack2','attack3', 'crouch', 'dash', 'dash_attack',
         'death', 'fall', 'hurt',
-        'idle', 'jump',  'run', 'slide', 'up_to_fall', 
+        'idle', 'jump',  'run', 'slide', 'up_to_fall', 'block'
     ];
     
     actions.forEach(action => {
@@ -52,6 +52,7 @@ export function createPlayerAnimations(scene: Phaser.Scene, prefix = 'player') {
         'jump': { frames: 3, frameRate: 8, repeat: 0 },
         'up_to_fall': { frames: 2, frameRate: 8, repeat: 0 },
         'slide': { frames: 5, frameRate: 10, repeat: 0 },
+        'block': { frames: 4, frameRate: 8, repeat: 0 },
     };
 
     Object.entries(animations).forEach(([key, { frames, frameRate, repeat }]) => {

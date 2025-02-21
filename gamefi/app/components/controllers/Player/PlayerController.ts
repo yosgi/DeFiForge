@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
-import { PlayerMovement } from './PlayerMovement';
-import { PlayerJump } from './PlayerJump';
-import { PlayerAttack } from './PlayerAttack';
-import { PlayerStateManager } from "./PlayerStateManager";
-import { PlayerAnimationManager } from "./PlayerAnimationManager";
-import { CharState } from './CharState';
-
+import { PlayerMovement } from '../PlayerMovement';
+import { PlayerJump } from '../PlayerJump';
+import { PlayerAttack } from '../PlayerAttack';
+import { PlayerStateManager } from "../PlayerStateManager";
+import { PlayerAnimationManager } from "../PlayerAnimationManager";
+import { CharState } from '../CharState';
+import { BaseController } from '../BaseController';
 
 export interface PlayerConfig {
     runSpeed?: number;             // 普通移动速度（Run状态）
@@ -28,8 +28,7 @@ export interface PlayerConfig {
     dashAttackDeceleration?: number;   // DashAttack 衰减系数（例如 0.95）
 }
 
-export class PlayerController {
-    public sprite: Phaser.Physics.Arcade.Sprite;
+export class PlayerController extends BaseController {
     public hp: number;
     public isDead: boolean = false;
     /** 在 Slide 等无敌期间为 true */
@@ -86,7 +85,7 @@ export class PlayerController {
     public dashAttackInitialSpeed: number;
     public dashAttackDeceleration: number;
 
-    private dashAttackAnimation: string;
+    public dashAttackAnimation: string;
 
     // 子模块
     public movement: PlayerMovement;
@@ -104,6 +103,7 @@ export class PlayerController {
         texture: string,
         config?: PlayerConfig
     ) {
+        super(scene, x, y, texture, config);
         this.scene = scene;
         this.animPrefix = config?.animPrefix ?? 'hero';
         this.hp = config?.hp ?? 100;
@@ -134,18 +134,14 @@ export class PlayerController {
         this.dashAttackDeceleration = config?.dashAttackDeceleration ?? 0.95;
 
 
-        // 创建精灵，并设置边界碰撞和缩放
-        this.sprite = scene.physics.add.sprite(x, y, texture);
-        this.sprite.setCollideWorldBounds(true);
-        const scaleFactor = config?.scaleFactor ?? 2;
-        this.sprite.setScale(scaleFactor);
+
 
         // 注册输入
         this.cursors = scene.input.keyboard!.createCursorKeys();
         this.attackKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         this.blockKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.slideKey = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
+        
         // 设置攻击动画（连击）和 dash 攻击动画
         this.normalAttackAnimations = [
             `${this.animPrefix}-attack1`,
@@ -162,8 +158,25 @@ export class PlayerController {
         // 初始化状态与动画管理模块
         this.animationManager = new PlayerAnimationManager(this);
         this.stateManager = new PlayerStateManager(this, this.animationManager);
-
+        
         this.setupAnimationEvents();
+    }
+
+    private handleBlockInput(time: number): void {
+        // 如果刚按下防御键，则进入 Blocking 状态，并记录开始时间
+        if (Phaser.Input.Keyboard.JustDown(this.blockKey) ) {
+          this.stateManager.changeState(CharState.Blocking);
+          this.blockStartTime = time;
+          this.continuousBlock = false; // 瞬间防御
+        }
+        // 如果防御键一直按下，则标记为持续防御
+        if (this.blockKey.isDown) {
+          this.continuousBlock = true;
+        }
+        // 如果防御键已释放且已进入 Blocking 状态，并且已超过 1 秒，则退出 Blocking 状态
+        if (this.state === CharState.Blocking && !this.blockKey.isDown && time - this.blockStartTime >= 500) {
+          this.stateManager.changeState(CharState.Idle);
+        }
     }
 
     /**
@@ -219,11 +232,12 @@ export class PlayerController {
                 else if (anim.key === `${this.animPrefix}-slide` && this.state === CharState.Slide) {
                     this.stateManager.changeState(CharState.Idle);
                 }
+                // 对于 up_to_fall，交由 update() 检测动画进度转换到 Fall 状态
                 if (this.bufferedAction) {
                     const action = this.bufferedAction;
                     this.bufferedAction = null;
                     action();
-                }
+                  }
             }
         );
     }
@@ -310,6 +324,7 @@ export class PlayerController {
         this.jump.handleJumpInput(time);
         this.attack.handleAttackInput();
         this.handleSlideInput(time);
+        this.handleBlockInput(time);
     }
 
     /**

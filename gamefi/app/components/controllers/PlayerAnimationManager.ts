@@ -1,11 +1,11 @@
 // PlayerAnimationManager.ts
-import { PlayerController } from "./PlayerController";
+import { PlayerController } from "./Player/PlayerController";
 import { CharState } from "./CharState";
-
+import { BaseController } from "./BaseController";
 export class PlayerAnimationManager {
-    private controller: PlayerController;
+    private controller: PlayerController | BaseController;
 
-    constructor(controller: PlayerController) {
+    constructor(controller: PlayerController | BaseController) {
         this.controller = controller;
     }
     /**
@@ -55,7 +55,7 @@ export class PlayerAnimationManager {
                 this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-slide`);
                 break;
             case CharState.Blocking:
-                this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-crouch`);
+                this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-block`);
                 break;
             case CharState.Stunned:
                 this.controller.playAnimationIfNotPlaying(`${this.controller.animPrefix}-hurt`);

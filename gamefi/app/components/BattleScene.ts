@@ -1,6 +1,9 @@
 import Phaser from 'phaser';
-import { PlayerController } from './controllers/PlayerController';
-import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/PlayerSpriteLoader';
+import { PlayerController } from './controllers/Player/PlayerController';
+import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/HeroSpriteLoader';
+import { loadVagabondMaterials , createVagabondAnimations } from './assets/VagabondSpriteLoader';
+import { AIController } from './controllers/AI/AIController';
+import { CharState } from './controllers/CharState';
 
 // 如果你仍有需要 hp 字段，可定义
 interface SpriteWithHP extends Phaser.Physics.Arcade.Sprite {
@@ -9,7 +12,7 @@ interface SpriteWithHP extends Phaser.Physics.Arcade.Sprite {
 
 export class BattleScene extends Phaser.Scene {
   private playerCtrl!: PlayerController;
-  private monsterCtrl!: PlayerController;
+  private monsterCtrl!: AIController;
 
   private playerSprite!: SpriteWithHP;
   private monsterSprite!: SpriteWithHP;
@@ -28,7 +31,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 分别加载“player”资源 & “monster”资源
     loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
-    // loadPlayerSpriteSheets(this, 'assets/monster', 'monster', { width: 128, height: 128 });
+    // loadVagabondMaterials(this, 'assets/vagabond', 'AI', { width: 64, height: 64 });
   }
 
   public create(): void {
@@ -41,16 +44,17 @@ export class BattleScene extends Phaser.Scene {
   
     // 创建动画 (player / monster)
     createPlayerAnimations(this, 'hero');
-    // createPlayerAnimations(this, 'monster');
+    // createVagabondAnimations(this, 'AI');
 
     // ============ 创建玩家 ============
-    // 1) 用 PlayerController, 传入初始纹理 (如 'player_idle')
+    // 1) 用 PlayerController, 传入初始纹理 
     this.playerCtrl = new PlayerController(this, 100, 300, 'hero_idle');
     this.playerSprite = this.playerCtrl.sprite as SpriteWithHP;
     this.playerSprite.setScale(1.5);
     this.playerSprite.hp = 100;
     this.playerSprite.setCollideWorldBounds(true);
     this.physics.add.collider(this.playerSprite, ground);
+    (window as any).playerSprite = this.playerSprite;
     // HP 文本
     this.playerHpText = this.add.text(20, 20, `PLAYER HP: ${this.playerSprite.hp}`, {
       fontSize: '16px',
@@ -58,15 +62,22 @@ export class BattleScene extends Phaser.Scene {
     });
 
     // ============ 创建怪物 ============
-    // 2) 再来一个 PlayerController / 或 AIController
-    //    并给它用“monster_idle”作为纹理
-    // this.monsterCtrl = new PlayerController(this, 600, 300, 'monster_idle');
+     // ============ 创建对手（怪物/AI） ============
+    //  this.monsterCtrl = new AIController(this, 600, 300, 'AI_idle', {
+    //   hp: 100,
+    //   scaleFactor: 1.5,
+    //   debug: true,
+    //   // 可传入 AI 专用参数，如 dashAttackInitialSpeed、dashAttackDeceleration 等
+    //   dashAttackInitialSpeed: 700,
+    //   dashAttackDeceleration: 0.95,
+    //   animPrefix: 'AI',
+    // });
     // this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
     // this.monsterSprite.hp = 100;
+    // this.monsterSprite.setScale(1.5);
     // this.monsterSprite.setCollideWorldBounds(true);
     // this.physics.add.collider(this.monsterSprite, ground);
 
-    // // HP 文本
     // this.monsterHpText = this.add.text(600, 20, `MONSTER HP: ${this.monsterSprite.hp}`, {
     //   fontSize: '16px',
     //   color: '#ffffff'
@@ -74,7 +85,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 播放 Idle 动画
     this.playerSprite.play('hero-idle');
-    // this.monsterSprite.play('monster-idle');
+    // this.monsterSprite.play('AI-idle');
   }
 
   public update(time: number, delta: number): void {
@@ -88,17 +99,28 @@ export class BattleScene extends Phaser.Scene {
     // this.monsterHpText.setText(`MONSTER HP: ${this.monsterSprite.hp}`);
 
     // 如果你需要碰撞检测(攻击命中等)，可以在这里
-    // this.checkAttackCollision(time);
+    this.checkAttackCollision();
   }
 
-  // 示例：如果要做攻击命中检测，就这么写
-  /*
-  private checkAttackCollision(time: number) {
-    // e.g. use distance or overlap to see if monster is hit
-    // If (playerCtrl is attacking && distance < 50) => monsterSprite.hp -= 10
-    // ...
+
+
+  private checkAttackCollision(): void {
+    const attackStates = [CharState.Attack1, CharState.Attack2, CharState.Attack3, CharState.DashAttack];
+    if (attackStates.includes(this.playerCtrl.state)) {
+      if (this.physics.overlap(this.playerSprite, this.monsterSprite)) {
+        // 如果怪物处于 Blocking 状态，则触发弹反（仅对瞬间防御有效）
+        if (this.monsterCtrl.state === CharState.Blocking) {
+          this.monsterCtrl.onBlocked(this.playerCtrl);
+          console.log('Block! Player stunned.');
+        } else {
+          // 否则正常受伤
+          const hitDirection = this.playerSprite.x < this.monsterSprite.x ? 'right' : 'left';
+          this.monsterCtrl.onHit(10, hitDirection);
+        }
+      }
+    }
   }
-  */
+
 }
 
 // Phaser 游戏配置
