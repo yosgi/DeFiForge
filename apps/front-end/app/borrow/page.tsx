@@ -29,7 +29,7 @@ export default function Page() {
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold">LendingPlatform</h1>
         <p className="text-gray-500">Net worth: $0 | Net APY: --</p>
       </div>
 
