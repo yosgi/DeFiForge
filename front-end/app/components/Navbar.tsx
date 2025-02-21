@@ -15,9 +15,10 @@ export default function Navbar() {
   const t = useTranslations();
   const navigation = [
     {name:"Dashboard", href: '/', current: true},
+    { name: "Airdrop", href: '/get-forge', current: false },
     { name: t('staking'), href: '/stake', current: false },
     { name: 'Borrow', href: '/borrow', current: false },
-    { name: 'Save', href: '/save', current: false },
+    { name: 'Gamefi', href: '/Gamefi', current: false },
     
   ]
   const pathname = usePathname();
