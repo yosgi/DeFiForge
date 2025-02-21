@@ -1,4 +1,23 @@
 {
-    "connect": "连接钱包",
-    "staking": "质押"
-  }
+  "connect": "连接钱包",
+  "staking": "质押",
+  "dashboard": "仪表盘",
+  "airdrop": "空投",
+  "borrow": "借贷",
+  "gamefi": "Gamefi",
+  "openMenu": "打开主菜单",
+  "closeMenu": "关闭主菜单",
+  "walletNotConnected": "钱包未连接！",
+  "claimSuccess": "🎉 成功领取 FORGE 代币！",
+  "claimFailed": "领取失败：",
+  "whatIsSepolia": "什么是 Sepolia？",
+  "sepoliaDescription1": "Sepolia 是一个为开发者设计的以太坊测试网络，用于在安全、受控的环境下实验 dApp 和智能合约。",
+  "sepoliaDescription2": "开始之前，您需要获取一些 Sepolia 代币。这些代币是免费的，可用于部署和测试您的项目。",
+  "getSepoliaTokens": "获取 Sepolia 代币",
+  "forgeAirdrop": "FORGE 代币空投",
+  "forgeDescription": "FORGE 是我们平台的实用代币，旨在赋能用户并促进生态系统内的交互。立即领取 FORGE 代币，开始体验！",
+  "connectWallet": "连接钱包",
+  "claiming": "领取中...",
+  "alreadyClaimed": "已领取",
+  "claimForgeTokens": "领取 FORGE 代币"
+}

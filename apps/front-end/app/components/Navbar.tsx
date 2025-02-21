@@ -14,11 +14,11 @@ function classNames(...classes: (string | undefined | null | false)[]): string {
 export default function Navbar() {
   const t = useTranslations();
   const navigation = [
-    {name:"Dashboard", href: '/', current: true},
-    { name: "Airdrop", href: '/forge', current: false },
+    { name: t('dashboard'), href: '/', current: true },
+    { name: t('airdrop'), href: '/forge', current: false },
     { name: t('staking'), href: '/stake', current: false },
-    { name: 'Borrow', href: '/borrow', current: false },
-    { name: 'Gamefi', href: '/gamefi', current: false },
+    { name: t('borrow'), href: '/borrow', current: false },
+    { name: t('gamefi'), href: '/gamefi', current: false }
     
   ]
   const pathname = usePathname();
