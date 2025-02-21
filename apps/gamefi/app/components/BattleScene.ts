@@ -44,7 +44,7 @@ export class BattleScene extends Phaser.Scene {
   
     // 创建动画 (player / monster)
     createPlayerAnimations(this, 'hero');
-    // createVagabondAnimations(this, 'AI');
+    createVagabondAnimations(this, 'AI');
 
     // ============ 创建玩家 ============
     // 1) 用 PlayerController, 传入初始纹理 
@@ -92,7 +92,7 @@ export class BattleScene extends Phaser.Scene {
     // 更新玩家
     this.playerCtrl.update(time, delta);
     // 更新怪物
-    // this.monsterCtrl.update(time, delta);
+    this.monsterCtrl.update(time, delta);
 
     // 刷新 HP 文本
     this.playerHpText.setText(`PLAYER HP: ${this.playerSprite.hp}`);
