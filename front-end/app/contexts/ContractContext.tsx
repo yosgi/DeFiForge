@@ -22,7 +22,7 @@ export const ContractsProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [contracts, setContracts] = useState<Contracts | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  console.log("ContractsProvider",contracts);
+
   useEffect(() => {
     async function fetchContracts() {
       try {
@@ -44,7 +44,7 @@ export const ContractsProvider: React.FC<{ children: ReactNode }> = ({ children 
   return (
     <ContractsContext.Provider value={{ contracts, loading, error }}>
 
-      {contracts  && children}
+      {! loading &&contracts  && children}
     </ContractsContext.Provider>
   );
 };

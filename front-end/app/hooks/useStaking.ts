@@ -6,12 +6,22 @@ import TOKEN_Contract from "../../public/abi/ERC20DecimalsMock.json";
 import { WalletContext } from "../contexts/WalletContext";
 import { ContractsContext } from "../contexts/ContractContext";
 
+// Define a type for each deposit item.
+export interface DepositItem {
+  amount: string;    // Staked amount (formatted, e.g. in ETH)
+  apy: number;       // APY percentage
+  duration: number;  // Duration in seconds 
+  reward: string;    // Calculated reward (formatted)
+  timestamp: number; // Deposit start timestamp (unix time)
+}
+
 export const useStaking = () => {
   const { currentAccount } = useContext(WalletContext);
   const [userStakedAmount, setUserStakedAmount] = useState<string>("0");
   const [rewardsAvailable, setRewardsAvailable] = useState<string>("0");
   const [totalStaked, setTotalStaked] = useState<string>("0");
   const [withdrawFee, setWithdrawFee] = useState<string>("0");
+  const [depositList, setDepositList] = useState<DepositItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { contracts } = useContext(ContractsContext);
 
@@ -19,7 +29,7 @@ export const useStaking = () => {
   // If contracts is not loaded, these values will be empty strings.
   const stakingAddress = contracts?.STAKING_CONTRACT_ADDRESS || "";
   const tokenAddress = contracts?.TOKEN_CONTRACT_ADDRESS || "";
-    
+
   /**
    * Utility function to get a contract instance using the given address and ABI.
    * Throws an error if the Ethereum provider is not found.
@@ -91,6 +101,7 @@ export const useStaking = () => {
    */
   const withdrawTokens = useCallback(
     async (index: number): Promise<boolean> => {
+        console.log("index",index)
       try {
         setLoading(true);
         const stakingContract = await getStakingContract();
@@ -164,7 +175,7 @@ export const useStaking = () => {
   }, [getStakingContract]);
 
   /**
-   * Fetch global staking statistics: total staked and withdraw fee.
+   * Fetch global staking statistics: total staked amount and withdraw fee.
    */
   const fetchGlobalStats = useCallback(async (): Promise<void> => {
     try {
@@ -178,15 +189,54 @@ export const useStaking = () => {
     }
   }, [getStakingContract]);
 
+  /**
+   * Fetch the deposit list for the current user.
+   * This retrieves detailed information for each deposit item.
+   */
+  const fetchDepositList = useCallback(async (): Promise<void> => {
+    if (!currentAccount) {
+      setDepositList([]);
+      return;
+    }
+    try {
+      const stakingContract = await getStakingContract();
+      const length = await stakingContract.getStakedItemLength(currentAccount);
+      const len = Number(length);
+      const list: DepositItem[] = [];
+      for (let i = 0; i < len; i++) {
+        const amt = await stakingContract.getStakedItemAmount(currentAccount, i);
+        const apy = await stakingContract.getStakedItemAPY(currentAccount, i);
+        const duration = await stakingContract.getStakedItemDuration(currentAccount, i);
+        const reward = await stakingContract.getStakedItemReward(currentAccount, i);
+        const timestamp = await stakingContract.getStakedItemTimestamp(currentAccount, i);
+        list.push({
+          amount: ethers.formatUnits(amt, 18),
+          apy: Number(apy),
+          duration: Number(duration),
+          reward: ethers.formatUnits(reward, 18),
+          timestamp: Number(timestamp),
+        });
+      }
+      setDepositList(list);
+    } catch (error) {
+      console.error("Failed to fetch deposit list:", error);
+    }
+  }, [currentAccount, getStakingContract]);
+
+ 
+
   // Fetch user-specific info and global stats when currentAccount changes.
   useEffect(() => {
     if (currentAccount) {
       getUserStakedInfo();
       rewardsRemaining();
+      fetchDepositList();
+    } else {
+      setDepositList([]);
     }
     // Global stats may be independent of the current user.
     fetchGlobalStats();
-  }, [currentAccount, getUserStakedInfo, rewardsRemaining, fetchGlobalStats]);
+  }, [currentAccount, getUserStakedInfo, rewardsRemaining, fetchGlobalStats, fetchDepositList]);
 
   return {
     stakeTokens,
@@ -194,10 +244,12 @@ export const useStaking = () => {
     emergencyWithdraw,
     getUserStakedInfo,
     rewardsRemaining,
+    fetchDepositList,
     userStakedAmount,
     rewardsAvailable,
     totalStaked,
     withdrawFee,
+    depositList,
     loading,
   };
 };

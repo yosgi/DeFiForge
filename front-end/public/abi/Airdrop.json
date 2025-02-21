@@ -5300,12 +5300,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x33c43ACD82Ceda9910fe6Fe846Aa73166900317b",
-      "transactionHash": "0x8565483b782d6c4e2000ac79278fd1156ebd54202821e376867101bb1b90943b"
+      "address": "0x3c1847340194D30d08D649bc3cEa74390c9019CA",
+      "transactionHash": "0xae38f2af1f4329cae8e14a36bccf7b791a6d2593ee59829c4862ca4d7944ed27"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-02-19T20:04:46.215Z",
+  "updatedAt": "2025-02-21T00:10:22.132Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "The contract must be pre-funded with enough tokens for the airdrop.",

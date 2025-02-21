@@ -27,7 +27,12 @@ module.exports = async function (deployer, network, accounts) {
   // Parameters: _rewardToken (token contract address) and _feeAddress (fee address, using accounts[1])
   await deployer.deploy(Staking, mockToken.address, accounts[1], { from: deployerAccount });
   const staking = await Staking.deployed();
+  staking.startReward({ from: deployerAccount });
   console.log("✅ Staking contract deployed at:", staking.address);
+  const rewardFund = web3.utils.toWei("50000", "ether"); 
+  await mockToken.transfer(staking.address, rewardFund, { from: deployerAccount });
+  let stakingRewardBalance = await mockToken.balanceOf(staking.address);
+  console.log("✅ Staking Contract Reward Balance:", web3.utils.fromWei(stakingRewardBalance.toString(), "ether"), "MTK");
 
   // 3. Deploy the Airdrop contract.
   // Parameters: Token contract address and airdrop amount per claim (e.g., 100 MTK)
@@ -53,15 +58,14 @@ module.exports = async function (deployer, network, accounts) {
   };
 
   // Define the target file path (adjust the path as needed)
-const targetPath = path.join(__dirname, "../../front-end/public/contracts/contracts.json");
-debugger;
-// Ensure the target directory exists; if not, create it recursively.
-const targetDir = path.dirname(targetPath);
-if (!fs.existsSync(targetDir)) {
-  fs.mkdirSync(targetDir, { recursive: true });
-}
+  const targetPath = path.join(__dirname, "../../front-end/public/contracts/contracts.json");
+  // Ensure the target directory exists; if not, create it recursively.
+  const targetDir = path.dirname(targetPath);
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
+  }
 
-// Write the content as JSON
-fs.writeFileSync(targetPath, JSON.stringify(contractAddresses, null, 2), { encoding: "utf8" });
-console.log("✅ Contract addresses written to contracts.json");
+  // Write the content as JSON
+  fs.writeFileSync(targetPath, JSON.stringify(contractAddresses, null, 2), { encoding: "utf8" });
+  console.log("✅ Contract addresses written to contracts.json");
 };
