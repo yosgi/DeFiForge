@@ -7,26 +7,26 @@
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "100:908:42:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;100:908:42;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "100:908:42:-:0;;;;;;;;",
+  "sourceMap": "100:908:44:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;100:908:44;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "100:908:44:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: ISC\n\npragma solidity ^0.8.18;\n\nimport \"../interfaces/PoolStructs.sol\";\n\nlibrary VaultAccounting {\n    function toShares(\n        PoolStructs.Vault memory total,\n        uint256 amount,\n        bool roundUp\n    ) internal pure returns (uint256 shares) {\n        if (total.amount == 0) {\n            shares = amount;\n        } else {\n            shares = (amount * total.shares) / total.amount;\n            if (roundUp && (shares * total.amount) / total.shares < amount) {\n                shares = shares + 1;\n            }\n        }\n    }\n\n    function toAmount(\n        PoolStructs.Vault memory total,\n        uint256 shares,\n        bool roundUp\n    ) internal pure returns (uint256 amount) {\n        if (total.shares == 0) {\n            amount = shares;\n        } else {\n            amount = (shares * total.amount) / total.shares;\n            if (roundUp && (amount * total.shares) / total.amount < shares) {\n                amount = amount + 1;\n            }\n        }\n    }\n}\n",
-  "sourcePath": "/Users/yosgi/freelancer/DeFiForge/contracts/contracts/libraries/VaultAccounting.sol",
+  "sourcePath": "/Users/yosgi/freelancer/DeFiForge/apps/contracts/contracts/libraries/VaultAccounting.sol",
   "ast": {
     "absolutePath": "project:/contracts/libraries/VaultAccounting.sol",
     "exportedSymbols": {
       "PoolStructs": [
-        9888
+        11946
       ],
       "VaultAccounting": [
-        10255
+        12313
       ]
     },
-    "id": 10256,
+    "id": 12314,
     "license": "ISC",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 10143,
+        "id": 12201,
         "literals": [
           "solidity",
           "^",
@@ -34,17 +34,17 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:24:42"
+        "src": "33:24:44"
       },
       {
         "absolutePath": "project:/contracts/interfaces/PoolStructs.sol",
         "file": "../interfaces/PoolStructs.sol",
-        "id": 10144,
+        "id": 12202,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 10256,
-        "sourceUnit": 9889,
-        "src": "59:39:42",
+        "scope": 12314,
+        "sourceUnit": 11947,
+        "src": "59:39:44",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -55,19 +55,19 @@
         "contractDependencies": [],
         "contractKind": "library",
         "fullyImplemented": true,
-        "id": 10255,
+        "id": 12313,
         "linearizedBaseContracts": [
-          10255
+          12313
         ],
         "name": "VaultAccounting",
-        "nameLocation": "108:15:42",
+        "nameLocation": "108:15:44",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 10198,
+              "id": 12256,
               "nodeType": "Block",
-              "src": "279:286:42",
+              "src": "279:286:44",
               "statements": [
                 {
                   "condition": {
@@ -75,34 +75,34 @@
                       "typeIdentifier": "t_uint128",
                       "typeString": "uint128"
                     },
-                    "id": 10159,
+                    "id": 12217,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "expression": {
-                        "id": 10156,
+                        "id": 12214,
                         "name": "total",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 10147,
-                        "src": "293:5:42",
+                        "referencedDeclaration": 12205,
+                        "src": "293:5:44",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                          "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                           "typeString": "struct PoolStructs.Vault memory"
                         }
                       },
-                      "id": 10157,
+                      "id": 12215,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "299:6:42",
+                      "memberLocation": "299:6:44",
                       "memberName": "amount",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 9833,
-                      "src": "293:12:42",
+                      "referencedDeclaration": 11891,
+                      "src": "293:12:44",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint128",
                         "typeString": "uint128"
@@ -112,45 +112,45 @@
                     "operator": "==",
                     "rightExpression": {
                       "hexValue": "30",
-                      "id": 10158,
+                      "id": 12216,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "309:1:42",
+                      "src": "309:1:44",
                       "typeDescriptions": {
                         "typeIdentifier": "t_rational_0_by_1",
                         "typeString": "int_const 0"
                       },
                       "value": "0"
                     },
-                    "src": "293:17:42",
+                    "src": "293:17:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
                   "falseBody": {
-                    "id": 10196,
+                    "id": 12254,
                     "nodeType": "Block",
-                    "src": "358:201:42",
+                    "src": "358:201:44",
                     "statements": [
                       {
                         "expression": {
-                          "id": 10174,
+                          "id": 12232,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 10165,
+                            "id": 12223,
                             "name": "shares",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10154,
-                            "src": "372:6:42",
+                            "referencedDeclaration": 12212,
+                            "src": "372:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -163,7 +163,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 10173,
+                            "id": 12231,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -175,18 +175,18 @@
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   },
-                                  "id": 10169,
+                                  "id": 12227,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "leftExpression": {
-                                    "id": 10166,
+                                    "id": 12224,
                                     "name": "amount",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 10149,
-                                    "src": "382:6:42",
+                                    "referencedDeclaration": 12207,
+                                    "src": "382:6:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
@@ -196,47 +196,47 @@
                                   "operator": "*",
                                   "rightExpression": {
                                     "expression": {
-                                      "id": 10167,
+                                      "id": 12225,
                                       "name": "total",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 10147,
-                                      "src": "391:5:42",
+                                      "referencedDeclaration": 12205,
+                                      "src": "391:5:44",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                        "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                         "typeString": "struct PoolStructs.Vault memory"
                                       }
                                     },
-                                    "id": 10168,
+                                    "id": 12226,
                                     "isConstant": false,
                                     "isLValue": true,
                                     "isPure": false,
                                     "lValueRequested": false,
-                                    "memberLocation": "397:6:42",
+                                    "memberLocation": "397:6:44",
                                     "memberName": "shares",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 9835,
-                                    "src": "391:12:42",
+                                    "referencedDeclaration": 11893,
+                                    "src": "391:12:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint128",
                                       "typeString": "uint128"
                                     }
                                   },
-                                  "src": "382:21:42",
+                                  "src": "382:21:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 }
                               ],
-                              "id": 10170,
+                              "id": 12228,
                               "isConstant": false,
                               "isInlineArray": false,
                               "isLValue": false,
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "TupleExpression",
-                              "src": "381:23:42",
+                              "src": "381:23:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -246,47 +246,47 @@
                             "operator": "/",
                             "rightExpression": {
                               "expression": {
-                                "id": 10171,
+                                "id": 12229,
                                 "name": "total",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 10147,
-                                "src": "407:5:42",
+                                "referencedDeclaration": 12205,
+                                "src": "407:5:44",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                   "typeString": "struct PoolStructs.Vault memory"
                                 }
                               },
-                              "id": 10172,
+                              "id": 12230,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
                               "lValueRequested": false,
-                              "memberLocation": "413:6:42",
+                              "memberLocation": "413:6:44",
                               "memberName": "amount",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 9833,
-                              "src": "407:12:42",
+                              "referencedDeclaration": 11891,
+                              "src": "407:12:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint128",
                                 "typeString": "uint128"
                               }
                             },
-                            "src": "381:38:42",
+                            "src": "381:38:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
                           },
-                          "src": "372:47:42",
+                          "src": "372:47:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "id": 10175,
+                        "id": 12233,
                         "nodeType": "ExpressionStatement",
-                        "src": "372:47:42"
+                        "src": "372:47:44"
                       },
                       {
                         "condition": {
@@ -294,18 +294,18 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           },
-                          "id": 10187,
+                          "id": 12245,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
-                            "id": 10176,
+                            "id": 12234,
                             "name": "roundUp",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10151,
-                            "src": "437:7:42",
+                            "referencedDeclaration": 12209,
+                            "src": "437:7:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
@@ -318,7 +318,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 10186,
+                            "id": 12244,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -328,7 +328,7 @@
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               },
-                              "id": 10184,
+                              "id": 12242,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -340,18 +340,18 @@
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
                                     },
-                                    "id": 10180,
+                                    "id": 12238,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "leftExpression": {
-                                      "id": 10177,
+                                      "id": 12235,
                                       "name": "shares",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 10154,
-                                      "src": "449:6:42",
+                                      "referencedDeclaration": 12212,
+                                      "src": "449:6:44",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
                                         "typeString": "uint256"
@@ -361,47 +361,47 @@
                                     "operator": "*",
                                     "rightExpression": {
                                       "expression": {
-                                        "id": 10178,
+                                        "id": 12236,
                                         "name": "total",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 10147,
-                                        "src": "458:5:42",
+                                        "referencedDeclaration": 12205,
+                                        "src": "458:5:44",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                          "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                           "typeString": "struct PoolStructs.Vault memory"
                                         }
                                       },
-                                      "id": 10179,
+                                      "id": 12237,
                                       "isConstant": false,
                                       "isLValue": true,
                                       "isPure": false,
                                       "lValueRequested": false,
-                                      "memberLocation": "464:6:42",
+                                      "memberLocation": "464:6:44",
                                       "memberName": "amount",
                                       "nodeType": "MemberAccess",
-                                      "referencedDeclaration": 9833,
-                                      "src": "458:12:42",
+                                      "referencedDeclaration": 11891,
+                                      "src": "458:12:44",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint128",
                                         "typeString": "uint128"
                                       }
                                     },
-                                    "src": "449:21:42",
+                                    "src": "449:21:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
                                     }
                                   }
                                 ],
-                                "id": 10181,
+                                "id": 12239,
                                 "isConstant": false,
                                 "isInlineArray": false,
                                 "isLValue": false,
                                 "isPure": false,
                                 "lValueRequested": false,
                                 "nodeType": "TupleExpression",
-                                "src": "448:23:42",
+                                "src": "448:23:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
@@ -411,33 +411,33 @@
                               "operator": "/",
                               "rightExpression": {
                                 "expression": {
-                                  "id": 10182,
+                                  "id": 12240,
                                   "name": "total",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 10147,
-                                  "src": "474:5:42",
+                                  "referencedDeclaration": 12205,
+                                  "src": "474:5:44",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                    "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                     "typeString": "struct PoolStructs.Vault memory"
                                   }
                                 },
-                                "id": 10183,
+                                "id": 12241,
                                 "isConstant": false,
                                 "isLValue": true,
                                 "isPure": false,
                                 "lValueRequested": false,
-                                "memberLocation": "480:6:42",
+                                "memberLocation": "480:6:44",
                                 "memberName": "shares",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 9835,
-                                "src": "474:12:42",
+                                "referencedDeclaration": 11893,
+                                "src": "474:12:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint128",
                                   "typeString": "uint128"
                                 }
                               },
-                              "src": "448:38:42",
+                              "src": "448:38:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -446,51 +446,51 @@
                             "nodeType": "BinaryOperation",
                             "operator": "<",
                             "rightExpression": {
-                              "id": 10185,
+                              "id": 12243,
                               "name": "amount",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 10149,
-                              "src": "489:6:42",
+                              "referencedDeclaration": 12207,
+                              "src": "489:6:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               }
                             },
-                            "src": "448:47:42",
+                            "src": "448:47:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
                             }
                           },
-                          "src": "437:58:42",
+                          "src": "437:58:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           }
                         },
-                        "id": 10195,
+                        "id": 12253,
                         "nodeType": "IfStatement",
-                        "src": "433:116:42",
+                        "src": "433:116:44",
                         "trueBody": {
-                          "id": 10194,
+                          "id": 12252,
                           "nodeType": "Block",
-                          "src": "497:52:42",
+                          "src": "497:52:44",
                           "statements": [
                             {
                               "expression": {
-                                "id": 10192,
+                                "id": 12250,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
                                 "lValueRequested": false,
                                 "leftHandSide": {
-                                  "id": 10188,
+                                  "id": 12246,
                                   "name": "shares",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 10154,
-                                  "src": "515:6:42",
+                                  "referencedDeclaration": 12212,
+                                  "src": "515:6:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
@@ -503,18 +503,18 @@
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   },
-                                  "id": 10191,
+                                  "id": 12249,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "leftExpression": {
-                                    "id": 10189,
+                                    "id": 12247,
                                     "name": "shares",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 10154,
-                                    "src": "524:6:42",
+                                    "referencedDeclaration": 12212,
+                                    "src": "524:6:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
@@ -524,63 +524,63 @@
                                   "operator": "+",
                                   "rightExpression": {
                                     "hexValue": "31",
-                                    "id": 10190,
+                                    "id": 12248,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": true,
                                     "kind": "number",
                                     "lValueRequested": false,
                                     "nodeType": "Literal",
-                                    "src": "533:1:42",
+                                    "src": "533:1:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_rational_1_by_1",
                                       "typeString": "int_const 1"
                                     },
                                     "value": "1"
                                   },
-                                  "src": "524:10:42",
+                                  "src": "524:10:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 },
-                                "src": "515:19:42",
+                                "src": "515:19:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
                                 }
                               },
-                              "id": 10193,
+                              "id": 12251,
                               "nodeType": "ExpressionStatement",
-                              "src": "515:19:42"
+                              "src": "515:19:44"
                             }
                           ]
                         }
                       }
                     ]
                   },
-                  "id": 10197,
+                  "id": 12255,
                   "nodeType": "IfStatement",
-                  "src": "289:270:42",
+                  "src": "289:270:44",
                   "trueBody": {
-                    "id": 10164,
+                    "id": 12222,
                     "nodeType": "Block",
-                    "src": "312:40:42",
+                    "src": "312:40:44",
                     "statements": [
                       {
                         "expression": {
-                          "id": 10162,
+                          "id": 12220,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 10160,
+                            "id": 12218,
                             "name": "shares",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10154,
-                            "src": "326:6:42",
+                            "referencedDeclaration": 12212,
+                            "src": "326:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -589,76 +589,76 @@
                           "nodeType": "Assignment",
                           "operator": "=",
                           "rightHandSide": {
-                            "id": 10161,
+                            "id": 12219,
                             "name": "amount",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10149,
-                            "src": "335:6:42",
+                            "referencedDeclaration": 12207,
+                            "src": "335:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
                           },
-                          "src": "326:15:42",
+                          "src": "326:15:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "id": 10163,
+                        "id": 12221,
                         "nodeType": "ExpressionStatement",
-                        "src": "326:15:42"
+                        "src": "326:15:44"
                       }
                     ]
                   }
                 }
               ]
             },
-            "id": 10199,
+            "id": 12257,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "toShares",
-            "nameLocation": "139:8:42",
+            "nameLocation": "139:8:44",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 10152,
+              "id": 12210,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 10147,
+                  "id": 12205,
                   "mutability": "mutable",
                   "name": "total",
-                  "nameLocation": "182:5:42",
+                  "nameLocation": "182:5:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10199,
-                  "src": "157:30:42",
+                  "scope": 12257,
+                  "src": "157:30:44",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                    "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                     "typeString": "struct PoolStructs.Vault"
                   },
                   "typeName": {
-                    "id": 10146,
+                    "id": 12204,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 10145,
+                      "id": 12203,
                       "name": "PoolStructs.Vault",
                       "nameLocations": [
-                        "157:11:42",
-                        "169:5:42"
+                        "157:11:44",
+                        "169:5:44"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 9836,
-                      "src": "157:17:42"
+                      "referencedDeclaration": 11894,
+                      "src": "157:17:44"
                     },
-                    "referencedDeclaration": 9836,
-                    "src": "157:17:42",
+                    "referencedDeclaration": 11894,
+                    "src": "157:17:44",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Vault_$9836_storage_ptr",
+                      "typeIdentifier": "t_struct$_Vault_$11894_storage_ptr",
                       "typeString": "struct PoolStructs.Vault"
                     }
                   },
@@ -666,13 +666,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 10149,
+                  "id": 12207,
                   "mutability": "mutable",
                   "name": "amount",
-                  "nameLocation": "205:6:42",
+                  "nameLocation": "205:6:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10199,
-                  "src": "197:14:42",
+                  "scope": 12257,
+                  "src": "197:14:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -680,10 +680,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 10148,
+                    "id": 12206,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "197:7:42",
+                    "src": "197:7:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -693,13 +693,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 10151,
+                  "id": 12209,
                   "mutability": "mutable",
                   "name": "roundUp",
-                  "nameLocation": "226:7:42",
+                  "nameLocation": "226:7:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10199,
-                  "src": "221:12:42",
+                  "scope": 12257,
+                  "src": "221:12:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -707,10 +707,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 10150,
+                    "id": 12208,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "221:4:42",
+                    "src": "221:4:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -719,21 +719,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "147:92:42"
+              "src": "147:92:44"
             },
             "returnParameters": {
-              "id": 10155,
+              "id": 12213,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 10154,
+                  "id": 12212,
                   "mutability": "mutable",
                   "name": "shares",
-                  "nameLocation": "271:6:42",
+                  "nameLocation": "271:6:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10199,
-                  "src": "263:14:42",
+                  "scope": 12257,
+                  "src": "263:14:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -741,10 +741,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 10153,
+                    "id": 12211,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "263:7:42",
+                    "src": "263:7:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -753,19 +753,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "262:16:42"
+              "src": "262:16:44"
             },
-            "scope": 10255,
-            "src": "130:435:42",
+            "scope": 12313,
+            "src": "130:435:44",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 10253,
+              "id": 12311,
               "nodeType": "Block",
-              "src": "720:286:42",
+              "src": "720:286:44",
               "statements": [
                 {
                   "condition": {
@@ -773,34 +773,34 @@
                       "typeIdentifier": "t_uint128",
                       "typeString": "uint128"
                     },
-                    "id": 10214,
+                    "id": 12272,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "expression": {
-                        "id": 10211,
+                        "id": 12269,
                         "name": "total",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 10202,
-                        "src": "734:5:42",
+                        "referencedDeclaration": 12260,
+                        "src": "734:5:44",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                          "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                           "typeString": "struct PoolStructs.Vault memory"
                         }
                       },
-                      "id": 10212,
+                      "id": 12270,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "740:6:42",
+                      "memberLocation": "740:6:44",
                       "memberName": "shares",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 9835,
-                      "src": "734:12:42",
+                      "referencedDeclaration": 11893,
+                      "src": "734:12:44",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint128",
                         "typeString": "uint128"
@@ -810,45 +810,45 @@
                     "operator": "==",
                     "rightExpression": {
                       "hexValue": "30",
-                      "id": 10213,
+                      "id": 12271,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "750:1:42",
+                      "src": "750:1:44",
                       "typeDescriptions": {
                         "typeIdentifier": "t_rational_0_by_1",
                         "typeString": "int_const 0"
                       },
                       "value": "0"
                     },
-                    "src": "734:17:42",
+                    "src": "734:17:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
                   "falseBody": {
-                    "id": 10251,
+                    "id": 12309,
                     "nodeType": "Block",
-                    "src": "799:201:42",
+                    "src": "799:201:44",
                     "statements": [
                       {
                         "expression": {
-                          "id": 10229,
+                          "id": 12287,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 10220,
+                            "id": 12278,
                             "name": "amount",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10209,
-                            "src": "813:6:42",
+                            "referencedDeclaration": 12267,
+                            "src": "813:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -861,7 +861,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 10228,
+                            "id": 12286,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -873,18 +873,18 @@
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   },
-                                  "id": 10224,
+                                  "id": 12282,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "leftExpression": {
-                                    "id": 10221,
+                                    "id": 12279,
                                     "name": "shares",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 10204,
-                                    "src": "823:6:42",
+                                    "referencedDeclaration": 12262,
+                                    "src": "823:6:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
@@ -894,47 +894,47 @@
                                   "operator": "*",
                                   "rightExpression": {
                                     "expression": {
-                                      "id": 10222,
+                                      "id": 12280,
                                       "name": "total",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 10202,
-                                      "src": "832:5:42",
+                                      "referencedDeclaration": 12260,
+                                      "src": "832:5:44",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                        "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                         "typeString": "struct PoolStructs.Vault memory"
                                       }
                                     },
-                                    "id": 10223,
+                                    "id": 12281,
                                     "isConstant": false,
                                     "isLValue": true,
                                     "isPure": false,
                                     "lValueRequested": false,
-                                    "memberLocation": "838:6:42",
+                                    "memberLocation": "838:6:44",
                                     "memberName": "amount",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 9833,
-                                    "src": "832:12:42",
+                                    "referencedDeclaration": 11891,
+                                    "src": "832:12:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint128",
                                       "typeString": "uint128"
                                     }
                                   },
-                                  "src": "823:21:42",
+                                  "src": "823:21:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 }
                               ],
-                              "id": 10225,
+                              "id": 12283,
                               "isConstant": false,
                               "isInlineArray": false,
                               "isLValue": false,
                               "isPure": false,
                               "lValueRequested": false,
                               "nodeType": "TupleExpression",
-                              "src": "822:23:42",
+                              "src": "822:23:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -944,47 +944,47 @@
                             "operator": "/",
                             "rightExpression": {
                               "expression": {
-                                "id": 10226,
+                                "id": 12284,
                                 "name": "total",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 10202,
-                                "src": "848:5:42",
+                                "referencedDeclaration": 12260,
+                                "src": "848:5:44",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                  "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                   "typeString": "struct PoolStructs.Vault memory"
                                 }
                               },
-                              "id": 10227,
+                              "id": 12285,
                               "isConstant": false,
                               "isLValue": true,
                               "isPure": false,
                               "lValueRequested": false,
-                              "memberLocation": "854:6:42",
+                              "memberLocation": "854:6:44",
                               "memberName": "shares",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 9835,
-                              "src": "848:12:42",
+                              "referencedDeclaration": 11893,
+                              "src": "848:12:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint128",
                                 "typeString": "uint128"
                               }
                             },
-                            "src": "822:38:42",
+                            "src": "822:38:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
                           },
-                          "src": "813:47:42",
+                          "src": "813:47:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "id": 10230,
+                        "id": 12288,
                         "nodeType": "ExpressionStatement",
-                        "src": "813:47:42"
+                        "src": "813:47:44"
                       },
                       {
                         "condition": {
@@ -992,18 +992,18 @@
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           },
-                          "id": 10242,
+                          "id": 12300,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftExpression": {
-                            "id": 10231,
+                            "id": 12289,
                             "name": "roundUp",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10206,
-                            "src": "878:7:42",
+                            "referencedDeclaration": 12264,
+                            "src": "878:7:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
@@ -1016,7 +1016,7 @@
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             },
-                            "id": 10241,
+                            "id": 12299,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -1026,7 +1026,7 @@
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               },
-                              "id": 10239,
+                              "id": 12297,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -1038,18 +1038,18 @@
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
                                     },
-                                    "id": 10235,
+                                    "id": 12293,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": false,
                                     "lValueRequested": false,
                                     "leftExpression": {
-                                      "id": 10232,
+                                      "id": 12290,
                                       "name": "amount",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 10209,
-                                      "src": "890:6:42",
+                                      "referencedDeclaration": 12267,
+                                      "src": "890:6:44",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
                                         "typeString": "uint256"
@@ -1059,47 +1059,47 @@
                                     "operator": "*",
                                     "rightExpression": {
                                       "expression": {
-                                        "id": 10233,
+                                        "id": 12291,
                                         "name": "total",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
-                                        "referencedDeclaration": 10202,
-                                        "src": "899:5:42",
+                                        "referencedDeclaration": 12260,
+                                        "src": "899:5:44",
                                         "typeDescriptions": {
-                                          "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                          "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                           "typeString": "struct PoolStructs.Vault memory"
                                         }
                                       },
-                                      "id": 10234,
+                                      "id": 12292,
                                       "isConstant": false,
                                       "isLValue": true,
                                       "isPure": false,
                                       "lValueRequested": false,
-                                      "memberLocation": "905:6:42",
+                                      "memberLocation": "905:6:44",
                                       "memberName": "shares",
                                       "nodeType": "MemberAccess",
-                                      "referencedDeclaration": 9835,
-                                      "src": "899:12:42",
+                                      "referencedDeclaration": 11893,
+                                      "src": "899:12:44",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint128",
                                         "typeString": "uint128"
                                       }
                                     },
-                                    "src": "890:21:42",
+                                    "src": "890:21:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
                                     }
                                   }
                                 ],
-                                "id": 10236,
+                                "id": 12294,
                                 "isConstant": false,
                                 "isInlineArray": false,
                                 "isLValue": false,
                                 "isPure": false,
                                 "lValueRequested": false,
                                 "nodeType": "TupleExpression",
-                                "src": "889:23:42",
+                                "src": "889:23:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
@@ -1109,33 +1109,33 @@
                               "operator": "/",
                               "rightExpression": {
                                 "expression": {
-                                  "id": 10237,
+                                  "id": 12295,
                                   "name": "total",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 10202,
-                                  "src": "915:5:42",
+                                  "referencedDeclaration": 12260,
+                                  "src": "915:5:44",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                                    "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                                     "typeString": "struct PoolStructs.Vault memory"
                                   }
                                 },
-                                "id": 10238,
+                                "id": 12296,
                                 "isConstant": false,
                                 "isLValue": true,
                                 "isPure": false,
                                 "lValueRequested": false,
-                                "memberLocation": "921:6:42",
+                                "memberLocation": "921:6:44",
                                 "memberName": "amount",
                                 "nodeType": "MemberAccess",
-                                "referencedDeclaration": 9833,
-                                "src": "915:12:42",
+                                "referencedDeclaration": 11891,
+                                "src": "915:12:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint128",
                                   "typeString": "uint128"
                                 }
                               },
-                              "src": "889:38:42",
+                              "src": "889:38:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
@@ -1144,51 +1144,51 @@
                             "nodeType": "BinaryOperation",
                             "operator": "<",
                             "rightExpression": {
-                              "id": 10240,
+                              "id": 12298,
                               "name": "shares",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 10204,
-                              "src": "930:6:42",
+                              "referencedDeclaration": 12262,
+                              "src": "930:6:44",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               }
                             },
-                            "src": "889:47:42",
+                            "src": "889:47:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_bool",
                               "typeString": "bool"
                             }
                           },
-                          "src": "878:58:42",
+                          "src": "878:58:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
                             "typeString": "bool"
                           }
                         },
-                        "id": 10250,
+                        "id": 12308,
                         "nodeType": "IfStatement",
-                        "src": "874:116:42",
+                        "src": "874:116:44",
                         "trueBody": {
-                          "id": 10249,
+                          "id": 12307,
                           "nodeType": "Block",
-                          "src": "938:52:42",
+                          "src": "938:52:44",
                           "statements": [
                             {
                               "expression": {
-                                "id": 10247,
+                                "id": 12305,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
                                 "lValueRequested": false,
                                 "leftHandSide": {
-                                  "id": 10243,
+                                  "id": 12301,
                                   "name": "amount",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 10209,
-                                  "src": "956:6:42",
+                                  "referencedDeclaration": 12267,
+                                  "src": "956:6:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
@@ -1201,18 +1201,18 @@
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   },
-                                  "id": 10246,
+                                  "id": 12304,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "leftExpression": {
-                                    "id": 10244,
+                                    "id": 12302,
                                     "name": "amount",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 10209,
-                                    "src": "965:6:42",
+                                    "referencedDeclaration": 12267,
+                                    "src": "965:6:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_uint256",
                                       "typeString": "uint256"
@@ -1222,63 +1222,63 @@
                                   "operator": "+",
                                   "rightExpression": {
                                     "hexValue": "31",
-                                    "id": 10245,
+                                    "id": 12303,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": true,
                                     "kind": "number",
                                     "lValueRequested": false,
                                     "nodeType": "Literal",
-                                    "src": "974:1:42",
+                                    "src": "974:1:44",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_rational_1_by_1",
                                       "typeString": "int_const 1"
                                     },
                                     "value": "1"
                                   },
-                                  "src": "965:10:42",
+                                  "src": "965:10:44",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
                                     "typeString": "uint256"
                                   }
                                 },
-                                "src": "956:19:42",
+                                "src": "956:19:44",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
                                   "typeString": "uint256"
                                 }
                               },
-                              "id": 10248,
+                              "id": 12306,
                               "nodeType": "ExpressionStatement",
-                              "src": "956:19:42"
+                              "src": "956:19:44"
                             }
                           ]
                         }
                       }
                     ]
                   },
-                  "id": 10252,
+                  "id": 12310,
                   "nodeType": "IfStatement",
-                  "src": "730:270:42",
+                  "src": "730:270:44",
                   "trueBody": {
-                    "id": 10219,
+                    "id": 12277,
                     "nodeType": "Block",
-                    "src": "753:40:42",
+                    "src": "753:40:44",
                     "statements": [
                       {
                         "expression": {
-                          "id": 10217,
+                          "id": 12275,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 10215,
+                            "id": 12273,
                             "name": "amount",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10209,
-                            "src": "767:6:42",
+                            "referencedDeclaration": 12267,
+                            "src": "767:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
@@ -1287,76 +1287,76 @@
                           "nodeType": "Assignment",
                           "operator": "=",
                           "rightHandSide": {
-                            "id": 10216,
+                            "id": 12274,
                             "name": "shares",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 10204,
-                            "src": "776:6:42",
+                            "referencedDeclaration": 12262,
+                            "src": "776:6:44",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
                               "typeString": "uint256"
                             }
                           },
-                          "src": "767:15:42",
+                          "src": "767:15:44",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         },
-                        "id": 10218,
+                        "id": 12276,
                         "nodeType": "ExpressionStatement",
-                        "src": "767:15:42"
+                        "src": "767:15:44"
                       }
                     ]
                   }
                 }
               ]
             },
-            "id": 10254,
+            "id": 12312,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "toAmount",
-            "nameLocation": "580:8:42",
+            "nameLocation": "580:8:44",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 10207,
+              "id": 12265,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 10202,
+                  "id": 12260,
                   "mutability": "mutable",
                   "name": "total",
-                  "nameLocation": "623:5:42",
+                  "nameLocation": "623:5:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10254,
-                  "src": "598:30:42",
+                  "scope": 12312,
+                  "src": "598:30:44",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Vault_$9836_memory_ptr",
+                    "typeIdentifier": "t_struct$_Vault_$11894_memory_ptr",
                     "typeString": "struct PoolStructs.Vault"
                   },
                   "typeName": {
-                    "id": 10201,
+                    "id": 12259,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 10200,
+                      "id": 12258,
                       "name": "PoolStructs.Vault",
                       "nameLocations": [
-                        "598:11:42",
-                        "610:5:42"
+                        "598:11:44",
+                        "610:5:44"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 9836,
-                      "src": "598:17:42"
+                      "referencedDeclaration": 11894,
+                      "src": "598:17:44"
                     },
-                    "referencedDeclaration": 9836,
-                    "src": "598:17:42",
+                    "referencedDeclaration": 11894,
+                    "src": "598:17:44",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Vault_$9836_storage_ptr",
+                      "typeIdentifier": "t_struct$_Vault_$11894_storage_ptr",
                       "typeString": "struct PoolStructs.Vault"
                     }
                   },
@@ -1364,13 +1364,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 10204,
+                  "id": 12262,
                   "mutability": "mutable",
                   "name": "shares",
-                  "nameLocation": "646:6:42",
+                  "nameLocation": "646:6:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10254,
-                  "src": "638:14:42",
+                  "scope": 12312,
+                  "src": "638:14:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1378,10 +1378,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 10203,
+                    "id": 12261,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "638:7:42",
+                    "src": "638:7:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1391,13 +1391,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 10206,
+                  "id": 12264,
                   "mutability": "mutable",
                   "name": "roundUp",
-                  "nameLocation": "667:7:42",
+                  "nameLocation": "667:7:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10254,
-                  "src": "662:12:42",
+                  "scope": 12312,
+                  "src": "662:12:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1405,10 +1405,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 10205,
+                    "id": 12263,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "662:4:42",
+                    "src": "662:4:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1417,21 +1417,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "588:92:42"
+              "src": "588:92:44"
             },
             "returnParameters": {
-              "id": 10210,
+              "id": 12268,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 10209,
+                  "id": 12267,
                   "mutability": "mutable",
                   "name": "amount",
-                  "nameLocation": "712:6:42",
+                  "nameLocation": "712:6:44",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10254,
-                  "src": "704:14:42",
+                  "scope": 12312,
+                  "src": "704:14:44",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1439,10 +1439,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 10208,
+                    "id": 12266,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "704:7:42",
+                    "src": "704:7:44",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1451,22 +1451,22 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "703:16:42"
+              "src": "703:16:44"
             },
-            "scope": 10255,
-            "src": "571:435:42",
+            "scope": 12313,
+            "src": "571:435:44",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "internal"
           }
         ],
-        "scope": 10256,
-        "src": "100:908:42",
+        "scope": 12314,
+        "src": "100:908:44",
         "usedErrors": [],
         "usedEvents": []
       }
     ],
-    "src": "33:976:42"
+    "src": "33:976:44"
   },
   "compiler": {
     "name": "solc",
@@ -1474,7 +1474,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-12-06T09:30:41.189Z",
+  "updatedAt": "2025-02-21T10:35:06.507Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

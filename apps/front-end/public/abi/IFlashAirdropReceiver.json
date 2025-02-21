@@ -45,20 +45,20 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.18;\n\ninterface IFlashAirdropReceiver {\n    /**\n     * @dev Receive a flash loan.\n     * @param initiator The initiator of the loan.\n     * @param nftAddress address of the NFT collection.\n     * @param tokenIds array of tokens Ids to be lent.\n     * @param data Arbitrary data structure, intended to contain user-defined parameters.\n     * @return bool either the operation was successful or not.\n     */\n    function onFlashLoan(\n        address initiator,\n        address nftAddress,\n        uint256[] calldata tokenIds,\n        bytes calldata data\n    ) external returns (bool);\n}\n",
-  "sourcePath": "/Users/yosgi/freelancer/DeFiForge/contracts/contracts/interfaces/IFlashAirdropReceiver.sol",
+  "sourcePath": "/Users/yosgi/freelancer/DeFiForge/apps/contracts/contracts/interfaces/IFlashAirdropReceiver.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IFlashAirdropReceiver.sol",
     "exportedSymbols": {
       "IFlashAirdropReceiver": [
-        9791
+        11849
       ]
     },
-    "id": 9792,
+    "id": 11850,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9775,
+        "id": 11833,
         "literals": [
           "solidity",
           "^",
@@ -66,7 +66,7 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:24:36"
+        "src": "33:24:38"
       },
       {
         "abstract": false,
@@ -75,42 +75,42 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 9791,
+        "id": 11849,
         "linearizedBaseContracts": [
-          9791
+          11849
         ],
         "name": "IFlashAirdropReceiver",
-        "nameLocation": "69:21:36",
+        "nameLocation": "69:21:38",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "documentation": {
-              "id": 9776,
+              "id": 11834,
               "nodeType": "StructuredDocumentation",
-              "src": "97:361:36",
+              "src": "97:361:38",
               "text": " @dev Receive a flash loan.\n @param initiator The initiator of the loan.\n @param nftAddress address of the NFT collection.\n @param tokenIds array of tokens Ids to be lent.\n @param data Arbitrary data structure, intended to contain user-defined parameters.\n @return bool either the operation was successful or not."
             },
             "functionSelector": "7f0df21b",
-            "id": 9790,
+            "id": 11848,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "onFlashLoan",
-            "nameLocation": "472:11:36",
+            "nameLocation": "472:11:38",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9786,
+              "id": 11844,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9778,
+                  "id": 11836,
                   "mutability": "mutable",
                   "name": "initiator",
-                  "nameLocation": "501:9:36",
+                  "nameLocation": "501:9:38",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9790,
-                  "src": "493:17:36",
+                  "scope": 11848,
+                  "src": "493:17:38",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -118,10 +118,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 9777,
+                    "id": 11835,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "493:7:36",
+                    "src": "493:7:38",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -132,13 +132,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 9780,
+                  "id": 11838,
                   "mutability": "mutable",
                   "name": "nftAddress",
-                  "nameLocation": "528:10:36",
+                  "nameLocation": "528:10:38",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9790,
-                  "src": "520:18:36",
+                  "scope": 11848,
+                  "src": "520:18:38",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -146,10 +146,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 9779,
+                    "id": 11837,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "520:7:36",
+                    "src": "520:7:38",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -160,13 +160,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 9783,
+                  "id": 11841,
                   "mutability": "mutable",
                   "name": "tokenIds",
-                  "nameLocation": "567:8:36",
+                  "nameLocation": "567:8:38",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9790,
-                  "src": "548:27:36",
+                  "scope": 11848,
+                  "src": "548:27:38",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -175,18 +175,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 9781,
+                      "id": 11839,
                       "name": "uint256",
                       "nodeType": "ElementaryTypeName",
-                      "src": "548:7:36",
+                      "src": "548:7:38",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 9782,
+                    "id": 11840,
                     "nodeType": "ArrayTypeName",
-                    "src": "548:9:36",
+                    "src": "548:9:38",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                       "typeString": "uint256[]"
@@ -196,13 +196,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 9785,
+                  "id": 11843,
                   "mutability": "mutable",
                   "name": "data",
-                  "nameLocation": "600:4:36",
+                  "nameLocation": "600:4:38",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9790,
-                  "src": "585:19:36",
+                  "scope": 11848,
+                  "src": "585:19:38",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -210,10 +210,10 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 9784,
+                    "id": 11842,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
-                    "src": "585:5:36",
+                    "src": "585:5:38",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes_storage_ptr",
                       "typeString": "bytes"
@@ -222,21 +222,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "483:127:36"
+              "src": "483:127:38"
             },
             "returnParameters": {
-              "id": 9789,
+              "id": 11847,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9788,
+                  "id": 11846,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9790,
-                  "src": "629:4:36",
+                  "scope": 11848,
+                  "src": "629:4:38",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -244,10 +244,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 9787,
+                    "id": 11845,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "629:4:36",
+                    "src": "629:4:38",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -256,22 +256,22 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "628:6:36"
+              "src": "628:6:38"
             },
-            "scope": 9791,
-            "src": "463:172:36",
+            "scope": 11849,
+            "src": "463:172:38",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 9792,
-        "src": "59:578:36",
+        "scope": 11850,
+        "src": "59:578:38",
         "usedErrors": [],
         "usedEvents": []
       }
     ],
-    "src": "33:605:36"
+    "src": "33:605:38"
   },
   "compiler": {
     "name": "solc",
@@ -279,7 +279,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-12-06T09:30:41.186Z",
+  "updatedAt": "2025-02-21T10:35:06.506Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
