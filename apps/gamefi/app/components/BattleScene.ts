@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { PlayerController } from './controllers/Player/PlayerController';
 import { loadPlayerSpriteSheets, createPlayerAnimations } from './assets/HeroSpriteLoader';
 import { loadVagabondMaterials , createVagabondAnimations } from './assets/VagabondSpriteLoader';
@@ -31,7 +31,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 分别加载“player”资源 & “monster”资源
     loadPlayerSpriteSheets(this, 'assets/hero', 'hero', { width: 64, height: 44 });
-    // loadVagabondMaterials(this, 'assets/vagabond', 'AI', { width: 64, height: 64 });
+    loadVagabondMaterials(this, 'assets/vagabond', 'AI', { width: 64, height: 64 });
   }
 
   public create(): void {
@@ -63,25 +63,25 @@ export class BattleScene extends Phaser.Scene {
 
     // ============ 创建怪物 ============
      // ============ 创建对手（怪物/AI） ============
-    //  this.monsterCtrl = new AIController(this, 600, 300, 'AI_idle', {
-    //   hp: 100,
-    //   scaleFactor: 1.5,
-    //   debug: true,
-    //   // 可传入 AI 专用参数，如 dashAttackInitialSpeed、dashAttackDeceleration 等
-    //   dashAttackInitialSpeed: 700,
-    //   dashAttackDeceleration: 0.95,
-    //   animPrefix: 'AI',
-    // });
-    // this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
-    // this.monsterSprite.hp = 100;
-    // this.monsterSprite.setScale(1.5);
-    // this.monsterSprite.setCollideWorldBounds(true);
-    // this.physics.add.collider(this.monsterSprite, ground);
+     this.monsterCtrl = new AIController(this, 600, 300, 'AI_idle', {
+      hp: 100,
+      scaleFactor: 1.5,
+      debug: true,
+      // 可传入 AI 专用参数，如 dashAttackInitialSpeed、dashAttackDeceleration 等
+      dashAttackInitialSpeed: 700,
+      dashAttackDeceleration: 0.95,
+      animPrefix: 'AI',
+    });
+    this.monsterSprite = this.monsterCtrl.sprite as SpriteWithHP;
+    this.monsterSprite.hp = 100;
+    this.monsterSprite.setScale(1.5);
+    this.monsterSprite.setCollideWorldBounds(true);
+    this.physics.add.collider(this.monsterSprite, ground);
 
-    // this.monsterHpText = this.add.text(600, 20, `MONSTER HP: ${this.monsterSprite.hp}`, {
-    //   fontSize: '16px',
-    //   color: '#ffffff'
-    // });
+    this.monsterHpText = this.add.text(600, 20, `MONSTER HP: ${this.monsterSprite.hp}`, {
+      fontSize: '16px',
+      color: '#ffffff'
+    });
 
     // 播放 Idle 动画
     this.playerSprite.play('hero-idle');
@@ -96,7 +96,7 @@ export class BattleScene extends Phaser.Scene {
 
     // 刷新 HP 文本
     this.playerHpText.setText(`PLAYER HP: ${this.playerSprite.hp}`);
-    // this.monsterHpText.setText(`MONSTER HP: ${this.monsterSprite.hp}`);
+    this.monsterHpText.setText(`MONSTER HP: ${this.monsterSprite.hp}`);
 
     // 如果你需要碰撞检测(攻击命中等)，可以在这里
     this.checkAttackCollision();

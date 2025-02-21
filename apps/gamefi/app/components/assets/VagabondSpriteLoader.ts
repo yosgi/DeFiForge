@@ -1,5 +1,5 @@
 // AILoader.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 const isAttack = (action:string) => action.includes('attack');
 export function loadVagabondMaterials(scene: Phaser.Scene, folder: string, prefix: string, {
   width = 64,

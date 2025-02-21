@@ -1,6 +1,6 @@
 // PlayerSpriteLoader.ts
 
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 
 /**
  * 从指定文件夹加载玩家所有动作的 spritesheet

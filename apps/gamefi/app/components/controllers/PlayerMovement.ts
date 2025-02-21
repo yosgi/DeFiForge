@@ -1,5 +1,5 @@
 // PlayerMovement.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { PlayerController } from './Player/PlayerController';
 import { CharState } from './CharState';
 import { BaseController } from './BaseController';

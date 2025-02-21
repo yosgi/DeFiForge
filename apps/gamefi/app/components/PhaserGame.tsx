@@ -1,6 +1,6 @@
 // components/PhaserGame.tsx
 import React, { useEffect, useRef } from 'react'
-import Phaser from 'phaser'
+import * as Phaser from 'phaser';
 
 // Import the Phaser config you exported
 import { config as phaserConfig } from './BattleScene'

@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { PlayerMovement } from '../PlayerMovement';
 import { PlayerJump } from '../PlayerJump';
 import { PlayerAttack } from '../PlayerAttack';

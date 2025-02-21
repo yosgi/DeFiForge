@@ -1,5 +1,5 @@
 // BaseController.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { CharState } from './CharState';
 import { PlayerConfig } from './Player/PlayerController';
 import { PlayerStateManager } from './PlayerStateManager';

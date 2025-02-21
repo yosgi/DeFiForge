@@ -1,5 +1,5 @@
 // AIController.ts
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { BaseController } from '../BaseController';
 import { AIInput } from './AIInput';
 import { CharState } from '../CharState';
