@@ -18,6 +18,33 @@
   "forgeDescription": "FORGE 是我们平台的实用代币，旨在赋能用户并促进生态系统内的交互。立即领取 FORGE 代币，开始体验！",
   "connectWallet": "连接钱包",
   "claiming": "领取中...",
-  "alreadyClaimed": "已领取",
-  "claimForgeTokens": "领取 FORGE 代币"
+  "alreadyClaimed": "已领取过代币了",
+  "claimForgeTokens": "领取 FORGE 代币",
+  "HomePage": {
+    "welcome": "欢迎来到 DeFi Forge",
+    "description": "一站式体验空投、质押、借贷和 Gamefi 游戏。",
+    "features": {
+      "getForge": {
+        "title": "领取 FORGE",
+        "description": "通过空投获得 FORGE 代币。",
+        "buttonText": "领取 FORGE"
+      },
+      "stake": {
+        "title": "质押",
+        "description": "质押您的 Sepolia 代币以获得 FORGE 奖励。",
+        "buttonText": "开始质押"
+      },
+      "borrowLend": {
+        "title": "借贷",
+        "description": "使用 FORGE 代币进行借贷。",
+        "buttonText": "立即借贷"
+      },
+      "gamefi": {
+        "title": "Gamefi",
+        "description": "使用 FORGE 代币进行游戏。",
+        "buttonText": "开始游戏"
+      }
+    }
+  }
+  
 }

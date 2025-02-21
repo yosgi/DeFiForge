@@ -19,5 +19,32 @@
   "connectWallet": "Connect Wallet",
   "claiming": "Claiming...",
   "alreadyClaimed": "Already Claimed",
-  "claimForgeTokens": "Claim FORGE Tokens"
+  "claimForgeTokens": "Claim FORGE Tokens",
+  "HomePage": {
+    "welcome": "Welcome to DeFi Forge",
+    "description": "Start to play get Airdrop, Stake tokens, Borrow, Lend, and Gamefi in one playground.",
+    "features": {
+      "getForge": {
+        "title": "Get FORGE",
+        "description": "Acquire FORGE tokens via Airdrop.",
+        "buttonText": "Get FORGE"
+      },
+      "stake": {
+        "title": "Stake",
+        "description": "Stake your Sepolia tokens to earn FORGE rewards.",
+        "buttonText": "Start Staking"
+      },
+      "borrowLend": {
+        "title": "Borrow & Lend",
+        "description": "Borrow and lend using your FORGE tokens.",
+        "buttonText": "Borrow Now"
+      },
+      "gamefi": {
+        "title": "Gamefi",
+        "description": "Play games using FORGE tokens.",
+        "buttonText": "Start Gaming"
+      }
+    }
+  }
+ 
 }
