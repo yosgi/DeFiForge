@@ -45,6 +45,50 @@
         "buttonText": "开始游戏"
       }
     }
+  },
+  "StakingPage": {
+    "headerSubtitle": "基于以太坊主网",
+    "headerTitle": "质押 Sepolia 赚取 FORGE",
+    "headerDescription": "仅限以太坊网络的 Sepolia 持有者，可以通过质押代币来赚取 FORGE 奖励，同时助力平台的安全与成长。若出现极端不稳定情况，您的质押可能会被部分削减以降低风险，从而提供额外的保护层。",
+    "learnRisks": "了解更多风险信息",
+
+    "totalStakedLabel": "Sepolia 质押总量",
+    "withdrawFeeLabel": "提现费率",
+
+    "stakingRulesTitle": "质押规则",
+    "option1": "选项 1",
+    "option1Description": "质押 30 天，年化收益 10%。奖励计算方式：Amount * 10% * (质押天数 / 365) FORGE。",
+    "option2": "选项 2",
+    "option2Description": "质押 60 天，年化收益 15%。奖励计算方式：Amount * 15% * (质押天数 / 365) FORGE。",
+    "option3": "选项 3",
+    "option3Description": "质押 120 天，年化收益 27%。奖励计算方式：Amount * 27% * (质押天数 / 365) FORGE。",
+
+    "stakeSepoliaTitle": "质押 Sepolia",
+    "currentStakedLabel": "当前质押数额：",
+    "stakeBtn": "质押 ETH",
+
+    "yourDeposits": "您的质押列表",
+    "depositAmount": "数量：",
+    "depositAPY": "年化：",
+    "depositDuration": "时长：",
+    "daysLabel": "天",
+    "depositStarted": "开始时间：",
+    "withdrawBtn": "提取",
+    "noDeposits": "没有发现任何质押记录。",
+    "stakeModalTitle": "质押 ETH",
+    "stakeInputLabel": "请输入您想要质押的 ETH 数量：",
+    "chooseDuration": "请选择质押时长：",
+    "withdrawModalTitle": "提取 ETH",
+    "withdrawConfirmText": "确认提取您质押的 ETH。\n注意：将会收取一定的提取费。",
+    "withdrawFeeMsg": "提取费率：{fee}%",
+    "stakeValidationMsg": "请输入质押数量并选择质押时长",
+    "stakeSuccess": "成功质押！",
+    "stakeFailed": "质押失败，请重试。",
+    "withdrawSuccess": "第 {index} 笔质押提取成功！已收取 {fee}% 的提取费。",
+    "withdrawFailed": "提取失败，请重试。",
+    "emergencyWithdrawAmountNeeded": "请先输入要紧急提取的数量",
+    "emergencyWithdrawSuccess": "紧急提取成功！",
+    "emergencyWithdrawFailed": "紧急提取失败，请重试。"
   }
   
 }

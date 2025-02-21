@@ -45,6 +45,46 @@
         "buttonText": "Start Gaming"
       }
     }
+  },
+  "StakingPage": {
+    "headerSubtitle": "Available on Ethereum Mainnet",
+    "headerTitle": "Stake Sepolia to Earn FORGE",
+    "headerDescription": "Sepolia holders (Ethereum network only) can stake their tokens to earn FORGE rewards while contributing to the security and growth of the platform. In rare cases of instability, your stake may be partially slashed to mitigate risks, adding an additional layer of protection.",
+    "learnRisks": "Learn more about risks involved",
+    "totalStakedLabel": "Total Sepolia Staked",
+    "withdrawFeeLabel": "Withdraw Fee",
+    "stakingRulesTitle": "Staking Rules",
+    "option1": "Option 1",
+    "option1Description": "Stake for 30 days at an APY of 10%. Rewards are calculated as (Amount * 10% * (days staked / 365)) FORGE tokens.",
+    "option2": "Option 2",
+    "option2Description": "Stake for 60 days at an APY of 15%. Rewards are calculated as (Amount * 15% * (days staked / 365)) FORGE tokens.",
+    "option3": "Option 3",
+    "option3Description": "Stake for 120 days at an APY of 27%. Rewards are calculated as (Amount * 27% * (days staked / 365)) FORGE tokens.",
+    "stakeSepoliaTitle": "Stake Sepolia",
+    "currentStakedLabel": "Your current staked amount: ",
+    "stakeBtn": "Stake ETH",
+    "yourDeposits": "Your Deposits",
+    "depositAmount": "Amount:",
+    "depositAPY": "APY:",
+    "depositDuration": "Duration:",
+    "daysLabel": "days",
+    "depositStarted": "Started:",
+    "withdrawBtn": "Withdraw",
+    "noDeposits": "No deposits found.",
+    "stakeModalTitle": "Stake ETH",
+    "stakeInputLabel": "Enter the amount of ETH you want to stake:",
+    "chooseDuration": "Choose staking duration:",
+    "withdrawModalTitle": "Withdraw ETH",
+    "withdrawConfirmText": "Confirm withdrawal of your staked ETH.\nNote: A withdraw fee will be applied.",
+    "withdrawFeeMsg": "Withdraw fee: {fee}%", 
+    "stakeValidationMsg": "Please enter an amount and select a duration",
+    "stakeSuccess": "Tokens staked successfully!",
+    "stakeFailed": "Failed to stake tokens. Please try again.",
+    "withdrawSuccess": "Deposit #{index} withdrawn successfully! Withdraw fee: {fee}% applied.",
+    "withdrawFailed": "Failed to withdraw deposit. Please try again.",
+    "emergencyWithdrawAmountNeeded": "Please enter an amount for emergency withdrawal",
+    "emergencyWithdrawSuccess": "Emergency withdrawal successful!",
+    "emergencyWithdrawFailed": "Emergency withdrawal failed. Please try again."
   }
  
 }
