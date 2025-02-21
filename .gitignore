@@ -1,0 +1,61 @@
+# 忽略操作系统生成的临时文件
+.DS_Store
+Thumbs.db
+
+# 忽略 Node.js 相关目录
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 忽略构建输出目录
+dist/
+build/
+out/
+
+# 忽略 Turborepo 生成的缓存和构建目录
+.turbo/
+turbo-lock.json
+
+# 忽略包管理器生成的锁文件
+# 如果您使用特定的包管理器，请取消对应行的注释
+# package-lock.json  # 对于 npm 用户
+# yarn.lock          # 对于 Yarn 用户
+# pnpm-lock.yaml     # 对于 pnpm 用户
+
+# 忽略环境变量配置文件
+.env
+.env.local
+.env.*.local
+
+# 忽略日志文件
+*.log
+
+# 忽略 IDE/编辑器配置文件
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 忽略测试输出
+coverage/
+tests_output/
+
+# 忽略本地依赖项
+/.pnp
+.pnp.js
+
+# 忽略 TypeScript 编译信息
+*.tsbuildinfo
+
+# 忽略 ESLint 缓存
+.eslintcache
+
+# 忽略特定工具或框架生成的文件
+.next/          # Next.js
+.nuxt/          # Nuxt.js
+.svelte-kit/    # SvelteKit
