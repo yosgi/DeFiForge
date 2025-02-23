@@ -5302,10 +5302,16 @@
       "links": {},
       "address": "0xC1282051B146a5D0d3335Af7777A53407B35BEaA",
       "transactionHash": "0x35ba16d6e174da8e0c91920077608442b428b5de5dbaa18cc844fcbe8a524325"
+    },
+    "420120000": {
+      "events": {},
+      "links": {},
+      "address": "0x34D8544EEfC6867c151e4A24b4278964eA8a0738",
+      "transactionHash": "0x84060f12f53f93dfd8847d88ad35be56a76038ff37abc197f91be3eb9d8bed0b"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-02-23T05:11:28.235Z",
+  "updatedAt": "2025-02-23T06:27:44.105Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "The contract must be pre-funded with enough tokens for the airdrop.",

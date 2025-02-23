@@ -22,11 +22,11 @@ export const ContractsProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [contracts, setContracts] = useState<Contracts | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const contractsFile = process.env.NEXT_PUBLIC_CONTRACTS_FILE || "/contracts/contracts.json";
   useEffect(() => {
     async function fetchContracts() {
       try {
-        const res = await fetch("/contracts/contracts.json");
+        const res = await fetch(contractsFile);
         if (!res.ok) {
           throw new Error("Failed to fetch contract addresses");
         }

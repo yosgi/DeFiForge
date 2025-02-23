@@ -13,6 +13,7 @@ export const useAirdrop = (currentAccount: string | null) => {
     const { contracts } = useContext(ContractsContext);
     const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS;
     const airdropAddress = contracts?.AIRDROP_CONTRACT_ADDRESS
+    console.log("🚀 ~ file: useAirdrop.ts ~ line 41 ~ useAirdrop ~ airdropAddress", airdropAddress)
     // Check if the user has already claimed the airdrop by reading the claimed mapping from the airdrop contract
     const checkIfClaimed = async () => {
         if (!currentAccount || !window.ethereum || !airdropAddress) return;
