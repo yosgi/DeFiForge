@@ -49,7 +49,7 @@ export default function Page() {
         </p>
         <Button
           size="large"
-          onClick={() => window.open("https://sepoliafaucet.com/", "_blank")}
+          onClick={() => window.open("https://console.optimism.io/faucet", "_blank")}
         >
           {t("getInteropDevnetTokens", { defaultMessage: "Get Sepolia Tokens" })}
         </Button>
