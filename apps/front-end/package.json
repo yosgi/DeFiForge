@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cp .env.development .env && next dev",
-    "build": "cp .env.production .env && next build",
-    "start": "cp .env.production .env && next start"
+    "dev": "next dev",
+    "build": "build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
