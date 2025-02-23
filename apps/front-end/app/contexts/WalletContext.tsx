@@ -2,13 +2,26 @@
 "use client";
 import React, { useState, useEffect, createContext, ReactNode } from "react";
 import { ethers } from "ethers";
-
+const chainEnv = process.env.NEXT_PUBLIC_CHAIN_ENV || "opsepolia";
+console.log("chainEnv", process.env.NEXT_PUBLIC_ENV);
+export const networkConfig: NetworkConfig = {
+  chainId: process.env.NEXT_PUBLIC_CHAIN_ID || (chainEnv === "ganache" ? "0x539" : "0x1a4"),
+  chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (chainEnv === "ganache" ? "Ganache" : "Optimism Sepolia"),
+  nativeCurrency: {
+    name: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_NAME || "ETH",
+    symbol: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_SYMBOL || "ETH",
+    decimals: Number(process.env.NEXT_PUBLIC_NATIVE_CURRENCY_DECIMALS) || 18,
+  },
+  rpcUrls: [process.env.NEXT_PUBLIC_RPC_URL || (chainEnv === "ganache" ? "http://127.0.0.1:7545" : "https://optimism-sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID")],
+  blockExplorerUrls: [process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL || (chainEnv === "ganache" ? "" : "https://optimistic.etherscan.io")],
+};
 interface WalletContextProps {
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   currentAccount: string | null;
   currentChain: string;
   isLoading: boolean;
+  switchNetwork: (networkConfig: NetworkConfig) => Promise<void>;
 }
 
 interface NetworkConfig {
@@ -41,28 +54,37 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       }
     }
   };
+  useEffect(() => {
+    const initChain = async () => {
+      if (window.ethereum) {
+        const chainId = await window.ethereum.request({ method: "eth_chainId" });
+        setCurrentChain(chainId);
+      }
+    };
+    initChain();
+  }, []);
 
   useEffect(() => {
     checkAccountConnected();
+    const handleAccountsChanged = (accounts: string[]) => {
+      setCurrentAccount(accounts.length ? accounts[0] : null);
+    };
+    const handleChainChanged = (chainId: string) => {
+      setCurrentChain(chainId);
+    };
+  
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged", checkAccountConnected);
-      window.ethereum.on("chainChanged", (chainId: string) => {
-        setCurrentChain(chainId);
-      });
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+      window.ethereum.on("chainChanged", handleChainChanged);
     }
+  
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+        window.ethereum.removeListener("chainChanged", handleChainChanged);
+      }
+    };
   }, []);
-
-  const networkConfig: NetworkConfig = {
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID || "0x1",
-    chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || "Ethereum Mainnet",
-    nativeCurrency: {
-      name: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_NAME || "Ether",
-      symbol: process.env.NEXT_PUBLIC_NATIVE_CURRENCY_SYMBOL || "ETH",
-      decimals: Number(process.env.NEXT_PUBLIC_NATIVE_CURRENCY_DECIMALS) || 18,
-    },
-    rpcUrls: [process.env.NEXT_PUBLIC_RPC_URL || ""],
-    blockExplorerUrls: [process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL || ""],
-  };
 
   const switchNetwork = async (networkConfig: NetworkConfig) => {
     if (window.ethereum) {
@@ -122,7 +144,8 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         disconnectWallet,
         currentAccount,
         currentChain,
-        isLoading
+        isLoading,
+        switchNetwork
       }}
     >
       {children}

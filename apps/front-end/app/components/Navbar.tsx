@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon,GlobeAltIcon } from '@heroicons/react/24
 import { DynamicUserMenu } from './DynamicUserMenu'
 import {DynamicSwitchLanguage} from './DynamicSwitchLanguage'
 import {useTranslations} from 'next-intl';
+import { ChainIndicator } from './ChainIndicator';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -69,6 +70,8 @@ export default function Navbar() {
             
             <DynamicSwitchLanguage />
             <DynamicUserMenu />
+            <div className=' ml-3'> <ChainIndicator /></div>
+           
           </div>
         </div>
       </div>
