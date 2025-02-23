@@ -10,19 +10,19 @@
   "walletNotConnected": "Wallet not connected!",
   "claimSuccess": "🎉 FORGE tokens successfully claimed!",
   "claimFailed": "Claiming failed:",
-  "whatIsSepolia": "What is Sepolia?",
-  "sepoliaDescription1": "Sepolia is an Ethereum testnet designed for developers to experiment with dApps and smart contracts in a safe and controlled environment.",
-  "sepoliaDescription2": "To get started, you'll need some Sepolia tokens. These tokens are free and can be used to deploy and test your projects.",
-  "getSepoliaTokens": "Get Sepolia Tokens",
+  "whatIsInteropDevnet": "What is Interop Devnet 0?",
+  "interopDevnetDescription1": "Interop Devnet 0 is a blockchain testnet designed for developers to experiment with dApps and smart contracts in a high-speed, low-latency environment.",
+  "interopDevnetDescription2": "To get started, you'll need some test tokens. These tokens are free and can be used to deploy and test your projects.",
+  "getInteropDevnetTokens": "Get Interop Devnet 0 Tokens",
   "forgeAirdrop": "FORGE Token AirDrop",
-  "forgeDescription": "FORGE is our platform's utility token, designed to empower users and facilitate interactions within the ecosystem. Claim your FORGE tokens and start play!",
+  "forgeDescription": "FORGE is our platform's utility token, designed to empower users and facilitate interactions within the ecosystem. Claim your FORGE tokens and start playing!",
   "connectWallet": "Connect Wallet",
   "claiming": "Claiming...",
   "alreadyClaimed": "Already Claimed",
   "claimForgeTokens": "Claim FORGE Tokens",
   "HomePage": {
     "welcome": "Welcome to DeFi Forge",
-    "description": "Start to play get Airdrop, Stake tokens, Borrow, Lend, and Gamefi in one playground.",
+    "description": "Start to play, get Airdrop, Stake tokens, Borrow, Lend, and Gamefi in one playground.",
     "features": {
       "getForge": {
         "title": "Get FORGE",
@@ -31,7 +31,7 @@
       },
       "stake": {
         "title": "Stake",
-        "description": "Stake your Sepolia tokens to earn FORGE rewards.",
+        "description": "Stake your Interop Devnet 0 tokens to earn FORGE rewards.",
         "buttonText": "Start Staking"
       },
       "borrowLend": {
@@ -47,11 +47,11 @@
     }
   },
   "StakingPage": {
-    "headerSubtitle": "Available on Ethereum Mainnet",
-    "headerTitle": "Stake Sepolia to Earn FORGE",
-    "headerDescription": "Sepolia holders (Ethereum network only) can stake their tokens to earn FORGE rewards while contributing to the security and growth of the platform. In rare cases of instability, your stake may be partially slashed to mitigate risks, adding an additional layer of protection.",
+    "headerSubtitle": "Available on Interop Devnet 0",
+    "headerTitle": "Stake Interop Devnet 0 to Earn FORGE",
+    "headerDescription": "Interop Devnet 0 holders can stake their tokens to earn FORGE rewards while contributing to the security and growth of the platform. In rare cases of instability, your stake may be partially slashed to mitigate risks, adding an additional layer of protection.",
     "learnRisks": "Learn more about risks involved",
-    "totalStakedLabel": "Total Sepolia Staked",
+    "totalStakedLabel": "Total Interop Devnet 0 Staked",
     "withdrawFeeLabel": "Withdraw Fee",
     "stakingRulesTitle": "Staking Rules",
     "option1": "Option 1",
@@ -60,9 +60,9 @@
     "option2Description": "Stake for 60 days at an APY of 15%. Rewards are calculated as (Amount * 15% * (days staked / 365)) FORGE tokens.",
     "option3": "Option 3",
     "option3Description": "Stake for 120 days at an APY of 27%. Rewards are calculated as (Amount * 27% * (days staked / 365)) FORGE tokens.",
-    "stakeSepoliaTitle": "Stake Sepolia",
+    "stakeInteropDevnet0Title": "Stake Interop Devnet 0",
     "currentStakedLabel": "Your current staked amount: ",
-    "stakeBtn": "Stake ETH",
+    "stakeBtn": "Stake Tokens",
     "yourDeposits": "Your Deposits",
     "depositAmount": "Amount:",
     "depositAPY": "APY:",
@@ -71,11 +71,11 @@
     "depositStarted": "Started:",
     "withdrawBtn": "Withdraw",
     "noDeposits": "No deposits found.",
-    "stakeModalTitle": "Stake ETH",
-    "stakeInputLabel": "Enter the amount of ETH you want to stake:",
+    "stakeModalTitle": "Stake Tokens",
+    "stakeInputLabel": "Enter the amount of tokens you want to stake:",
     "chooseDuration": "Choose staking duration:",
-    "withdrawModalTitle": "Withdraw ETH",
-    "withdrawConfirmText": "Confirm withdrawal of your staked ETH.\nNote: A withdraw fee will be applied.",
+    "withdrawModalTitle": "Withdraw Tokens",
+    "withdrawConfirmText": "Confirm withdrawal of your staked tokens.\nNote: A withdraw fee will be applied.",
     "withdrawFeeMsg": "Withdraw fee: {fee}%", 
     "stakeValidationMsg": "Please enter an amount and select a duration",
     "stakeSuccess": "Tokens staked successfully!",
@@ -86,5 +86,4 @@
     "emergencyWithdrawSuccess": "Emergency withdrawal successful!",
     "emergencyWithdrawFailed": "Emergency withdrawal failed. Please try again."
   }
- 
 }

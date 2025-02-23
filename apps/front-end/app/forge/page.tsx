@@ -33,16 +33,16 @@ export default function Page() {
       {/* Section 1: Sepolia Introduction */}
       <section className="bg-gray-100 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">
-          {t("whatIsSepolia", { defaultMessage: "What is Sepolia?" })}
+          {t("whatIsInteropDevnet", { defaultMessage: "What is Sepolia?" })}
         </h2>
         <p className="text-gray-700 mb-4">
-          {t("sepoliaDescription1", {
+          {t("interopDevnetDescription1", {
             defaultMessage:
               "Sepolia is an Ethereum testnet designed for developers to experiment with dApps and smart contracts in a safe and controlled environment."
           })}
         </p>
         <p className="text-gray-700 mb-4">
-          {t("sepoliaDescription2", {
+          {t("interopDevnetDescription2", {
             defaultMessage:
               "To get started, you'll need some Sepolia tokens. These tokens are free and can be used to deploy and test your projects."
           })}
@@ -51,7 +51,7 @@ export default function Page() {
           size="large"
           onClick={() => window.open("https://sepoliafaucet.com/", "_blank")}
         >
-          {t("getSepoliaTokens", { defaultMessage: "Get Sepolia Tokens" })}
+          {t("getInteropDevnetTokens", { defaultMessage: "Get Sepolia Tokens" })}
         </Button>
       </section>
 

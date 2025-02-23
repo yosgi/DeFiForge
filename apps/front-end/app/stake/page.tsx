@@ -195,7 +195,7 @@ const StakingPage = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-primary">
-              {t("stakeSepoliaTitle", { defaultMessage: "Stake Sepolia" })}
+              {t("stakeInteropDevnet0Title", { defaultMessage: "Stake Sepolia" })}
             </h2>
             <p className="text-sm text-primary-light mt-1">
               {t("currentStakedLabel", {
