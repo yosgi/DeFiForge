@@ -73,6 +73,15 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
+    opsepolia:{
+      provider: () => new HDWalletProvider(mnemonic, `https://interop-alpha-0.optimism.io`),
+      network_id: 420120000, // Opsepolia
+      gas: 15000000, // Gas limit
+      gasPrice: 1000000000, // Gas price: 20 Gwei
+      confirmations: 10, // # of confirmations to wait between deployments
+      timeoutBlocks: 1000, // # of blocks before a deployment times out
+      skipDryRun: true // Skip dry run before migrations
+    },
     sepolia: {
       provider: () => new HDWalletProvider(mnemonic, `https://blockchain.googleapis.com/v1/projects/speedy-coder-383121/locations/us-central1/endpoints/ethereum-sepolia/rpc?key=${GOOGLE_API_KEY}`),
       network_id: 11155111, // Sepolia 

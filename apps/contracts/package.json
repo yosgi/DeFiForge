@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "truffle test && node scripts/copyABI.js",
-    "migrate": "truffle migrate --network sepolia && node scripts/copyABI.js",
+    "migrate": "truffle migrate --network opsepolia && node scripts/copyABI.js",
     "ganach-migrate": "truffle migrate --network ganache && node scripts/copyABI.js"
   }
 }

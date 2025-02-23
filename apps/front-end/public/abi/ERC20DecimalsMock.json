@@ -7963,12 +7963,12 @@
         }
       },
       "links": {},
-      "address": "0x7129f7C5eB36274c7bF837aFc8d1971549f1eB6D",
-      "transactionHash": "0xe08bc5fb18d50a4e529bfce67999d9fbc0bf88f3510433da165751b70516fff0"
+      "address": "0x98e5A69CBA6d022263b445Ac431f94eD9D4de264",
+      "transactionHash": "0x31733fb02660756d037c6ed74371cfd26d2835661732ea8b593ab0cba38f33b9"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-02-21T10:35:07.131Z",
+  "updatedAt": "2025-02-23T05:11:28.229Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "For exmaple for mocking ETH we put 18 and for WBTC there are 8, this will allow more realistic testing",

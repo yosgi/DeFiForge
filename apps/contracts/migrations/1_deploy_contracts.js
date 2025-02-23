@@ -48,7 +48,7 @@ module.exports = async function (deployer, network, accounts) {
 
   // 2. Deploy the Staking contract.
   // Parameters: _rewardToken (token contract address) and _feeAddress (fee address, using accounts[1])
-  await deployer.deploy(Staking, mockToken.address, accounts[1], { from: deployerAccount });
+  await deployer.deploy(Staking, mockToken.address, accounts[0], { from: deployerAccount });
   const staking = await Staking.deployed();
   staking.startReward({ from: deployerAccount });
   console.log("✅ Staking contract deployed at:", staking.address);
@@ -84,15 +84,24 @@ module.exports = async function (deployer, network, accounts) {
     LENDING_POOL_ADDRESS: lendingPool.address,
   };
 
-  // Define the target file path (adjust the path as needed)
-  const targetPath = path.join(__dirname, "../../front-end/public/contracts/contracts.json");
+  
+  let contractsFilePath;
+  console.log("📝 Writing contract addresses to JSON file...",network);
+  if (network === "opsepolia") {
+    contractsFilePath = path.join(__dirname, "../../front-end/public/contracts/opsepolia-contracts.json");
+  } else if (network === "ganache") {
+    contractsFilePath = path.join(__dirname, "../../front-end/public/contracts/ganache-contracts.json");
+  } else {
+    contractsFilePath = path.join(__dirname, "../../front-end/public/contracts/contracts.json");
+  }
+
   // Ensure the target directory exists; if not, create it recursively.
-  const targetDir = path.dirname(targetPath);
+  const targetDir = path.dirname(contractsFilePath);
   if (!fs.existsSync(targetDir)) {
     fs.mkdirSync(targetDir, { recursive: true });
   }
 
   // Write the content as JSON
-  fs.writeFileSync(targetPath, JSON.stringify(contractAddresses, null, 2), { encoding: "utf8" });
-  console.log("✅ Contract addresses written to contracts.json");
+  fs.writeFileSync(contractsFilePath, JSON.stringify(contractAddresses, null, 2), { encoding: "utf8" });
+  console.log(`✅ Contract addresses written to ${contractsFilePath}`);
 };

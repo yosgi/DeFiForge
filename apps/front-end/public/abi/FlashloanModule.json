@@ -8053,12 +8053,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x6C6dfe2a821C7525b7242084450F074Ce9ad45Ff",
-      "transactionHash": "0x33d6e8c102614553a0652a2aa2e3006593d2b9a086bbef99ecbd33e3c31c1332"
+      "address": "0xeEa653a534c188FE62F9d7DeD7CDB82923eD488b",
+      "transactionHash": "0xe92a0b83b1694243f461e776aa9a3ef08a68a85e900d8db4ee7cc221dbd8a120"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-02-21T10:35:07.141Z",
+  "updatedAt": "2025-02-23T05:11:28.240Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
